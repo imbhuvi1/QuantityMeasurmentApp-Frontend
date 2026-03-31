@@ -66,7 +66,7 @@ async function doCompare() {
     const q1 = buildQ(document.getElementById('compare-val1').value, 'compare-unit1', 'compare');
     const q2 = buildQ(document.getElementById('compare-val2').value, 'compare-unit2', 'compare');
     const res = await compare(q1, q2);
-    await handleResponse('compare', res, data => `${data === true ? '✅ Equal' : '❌ Not Equal'}`);
+    await handleResponse('compare', res, data => `${data === true ? 'Equal' : 'Not Equal'}`);
 }
 
 // Convert
@@ -124,7 +124,7 @@ async function loadHistory() {
             <td>${item.thisValue} ${item.thisUnit}</td>
             <td>${item.thatValue != null ? item.thatValue + ' ' + item.thatUnit : '-'}</td>
             <td>${item.resultValue != null ? item.resultValue + ' ' + item.resultUnit : item.resultString || '-'}</td>
-            <td>${item.error ? '❌ Error' : '✅ Success'}</td>
+            <td>${item.error ? 'Error' : 'Success'}</td>
             <td><button class="btn btn-danger btn-sm" onclick="deleteSingle(${item.id})">🗑</button></td>
         </tr>`;
     });
