@@ -349,8 +349,6 @@ async function loadHistory() {
 }
 
 async function deleteSingle(id) {
-    if (!confirm('Delete this record?')) return;
-    
     try {
         const res = await deleteById(id);
         const json = await res.json();
