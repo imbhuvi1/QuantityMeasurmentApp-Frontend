@@ -11,7 +11,7 @@
 <body>
     <!-- Navbar -->
     <nav class="dashboard-navbar">
-        <div class="dashboard-logo" onclick="switchTab('home')">Quantity Measurement App</div>
+        <div class="dashboard-logo">Quantity Measurement App</div>
         <div class="dashboard-nav-right">
             <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
             <span id="userName" class="user-name" onclick="switchTab('profile')"></span>
@@ -23,231 +23,197 @@
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <button class="sidebar-item" onclick="switchTab('length')">📏 Length</button>
-            <button class="sidebar-item" onclick="switchTab('weight')">⚖️ Weight</button>
-            <button class="sidebar-item" onclick="switchTab('volume')">🧪 Volume</button>
-            <button class="sidebar-item" onclick="switchTab('temperature')">🌡️ Temperature</button>
+            <div class="sidebar-label">OPERATIONS</div>
+            <button class="sidebar-item active" onclick="switchOperation('compare')">⇄ Compare</button>
+            <button class="sidebar-item" onclick="switchOperation('convert')">↻ Convert</button>
+            <button class="sidebar-item" onclick="switchOperation('add')">+ Add</button>
+            <button class="sidebar-item" onclick="switchOperation('subtract')">− Subtract</button>
+            <button class="sidebar-item" onclick="switchOperation('divide')">÷ Divide</button>
             <div class="sidebar-divider"></div>
             <button class="sidebar-item" onclick="switchTab('history')">📋 History</button>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Home Tab -->
-            <div id="tab-home" class="tab-content active">
-                <div class="content-card">
-                    <div class="home-welcome">
-                        <h2 id="welcome-msg"></h2>
-                        <p>Select a measurement type from the sidebar to start converting quantities.</p>
-                        <div class="home-cards">
-                            <div class="home-card" onclick="switchTab('length')">
-                                <div class="icon">📏</div>
-                                <div class="label">Length</div>
-                            </div>
-                            <div class="home-card" onclick="switchTab('weight')">
-                                <div class="icon">⚖️</div>
-                                <div class="label">Weight</div>
-                            </div>
-                            <div class="home-card" onclick="switchTab('volume')">
-                                <div class="icon">🧪</div>
-                                <div class="label">Volume</div>
-                            </div>
-                            <div class="home-card" onclick="switchTab('temperature')">
-                                <div class="icon">🌡️</div>
-                                <div class="label">Temperature</div>
-                            </div>
-                            <div class="home-card" onclick="switchTab('history')">
-                                <div class="icon">📋</div>
-                                <div class="label">History</div>
-                            </div>
+            <!-- Welcome Message -->
+            <div class="welcome-banner">
+                <h2 id="welcome-msg"></h2>
+                <p>Select an operation from the sidebar and choose your measurement type below</p>
+            </div>
+
+            <!-- Calculation Box -->
+            <div id="calculation-section" class="content-card">
+                <h3 id="operation-title">Compare Two Quantities</h3>
+                
+                <!-- Measurement Type Selector -->
+                <div class="measurement-selector">
+                    <label>Measurement Type:</label>
+                    <div class="type-pills">
+                        <button class="type-pill active" onclick="selectMeasurementType('LENGTH')">📏 Length</button>
+                        <button class="type-pill" onclick="selectMeasurementType('WEIGHT')">⚖️ Weight</button>
+                        <button class="type-pill" onclick="selectMeasurementType('VOLUME')">🧪 Volume</button>
+                        <button class="type-pill" onclick="selectMeasurementType('TEMPERATURE')">🌡️ Temperature</button>
+                    </div>
+                </div>
+
+                <!-- Compare Operation -->
+                <div id="operation-compare" class="operation-content active">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Quantity 1</label>
+                            <input type="number" id="compare-val1" placeholder="Enter value">
+                            <select id="compare-unit1"></select>
+                        </div>
+                        <div class="input-group">
+                            <label>Quantity 2</label>
+                            <input type="number" id="compare-val2" placeholder="Enter value">
+                            <select id="compare-unit2"></select>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="doCompare()">Compare</button>
+                        <div id="result-compare" class="result-box hidden">
+                            <div class="label">Result</div>
+                            <div class="value" id="result-compare-value"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Length Tab -->
-            <div id="tab-length" class="tab-content">
-                <div class="content-card">
-                    <h3>Length Conversion</h3>
+                <!-- Convert Operation -->
+                <div id="operation-convert" class="operation-content">
                     <div class="conversion-container">
                         <div class="input-group">
                             <label>Enter Value</label>
-                            <input type="number" id="length-value" placeholder="100">
-                            <select id="length-from">
-                                <option value="FEET">Feet</option>
-                                <option value="INCHES">Inches</option>
-                                <option value="YARDS">Yards</option>
-                                <option value="CENTIMETERS">Centimeters</option>
-                            </select>
+                            <input type="number" id="convert-val" placeholder="Enter value">
+                            <select id="convert-from"></select>
                         </div>
                         <div class="arrow-icon">→</div>
                         <div class="input-group">
                             <label>Convert To</label>
-                            <select id="length-to">
-                                <option value="FEET">Feet</option>
-                                <option value="INCHES">Inches</option>
-                                <option value="YARDS">Yards</option>
-                                <option value="CENTIMETERS" selected>Centimeters</option>
-                            </select>
+                            <select id="convert-to"></select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="doConversion('length')">Convert</button>
-                    <div id="result-length" class="result-box hidden">
-                        <div class="label">Result</div>
-                        <div class="value" id="result-length-value"></div>
-                        <div class="explanation" id="result-length-exp"></div>
+                    <div style="display: flex; align-items: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="doConvert()">Convert</button>
+                        <div id="result-convert" class="result-box hidden">
+                            <div class="label">Result</div>
+                            <div class="value" id="result-convert-value"></div>
+                            <div class="explanation" id="result-convert-exp"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Weight Tab -->
-            <div id="tab-weight" class="tab-content">
-                <div class="content-card">
-                    <h3>Weight Conversion</h3>
-                    <div class="conversion-container">
+                <!-- Add Operation -->
+                <div id="operation-add" class="operation-content">
+                    <div class="form-row">
                         <div class="input-group">
-                            <label>Enter Value</label>
-                            <input type="number" id="weight-value" placeholder="100">
-                            <select id="weight-from">
-                                <option value="MILLIGRAM">Milligram</option>
-                                <option value="GRAM">Gram</option>
-                                <option value="KILOGRAM">Kilogram</option>
-                                <option value="POUND">Pound</option>
-                                <option value="TONNE">Tonne</option>
-                            </select>
+                            <label>Quantity 1</label>
+                            <input type="number" id="add-val1" placeholder="Enter value">
+                            <select id="add-unit1"></select>
                         </div>
-                        <div class="arrow-icon">→</div>
                         <div class="input-group">
-                            <label>Convert To</label>
-                            <select id="weight-to">
-                                <option value="MILLIGRAM">Milligram</option>
-                                <option value="GRAM">Gram</option>
-                                <option value="KILOGRAM" selected>Kilogram</option>
-                                <option value="POUND">Pound</option>
-                                <option value="TONNE">Tonne</option>
-                            </select>
+                            <label>Quantity 2</label>
+                            <input type="number" id="add-val2" placeholder="Enter value">
+                            <select id="add-unit2"></select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="doConversion('weight')">Convert</button>
-                    <div id="result-weight" class="result-box hidden">
-                        <div class="label">Result</div>
-                        <div class="value" id="result-weight-value"></div>
-                        <div class="explanation" id="result-weight-exp"></div>
+                    <div style="display: flex; align-items: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="doAdd()">Add</button>
+                        <div id="result-add" class="result-box hidden">
+                            <div class="label">Result</div>
+                            <div class="value" id="result-add-value"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Volume Tab -->
-            <div id="tab-volume" class="tab-content">
-                <div class="content-card">
-                    <h3>Volume Conversion</h3>
-                    <div class="conversion-container">
+                <!-- Subtract Operation -->
+                <div id="operation-subtract" class="operation-content">
+                    <div class="form-row">
                         <div class="input-group">
-                            <label>Enter Value</label>
-                            <input type="number" id="volume-value" placeholder="100">
-                            <select id="volume-from">
-                                <option value="LITRE">Litre</option>
-                                <option value="MILLILITRE">Millilitre</option>
-                                <option value="GALLON">Gallon</option>
-                            </select>
+                            <label>Quantity 1</label>
+                            <input type="number" id="subtract-val1" placeholder="Enter value">
+                            <select id="subtract-unit1"></select>
                         </div>
-                        <div class="arrow-icon">→</div>
                         <div class="input-group">
-                            <label>Convert To</label>
-                            <select id="volume-to">
-                                <option value="LITRE" selected>Litre</option>
-                                <option value="MILLILITRE">Millilitre</option>
-                                <option value="GALLON">Gallon</option>
-                            </select>
+                            <label>Quantity 2</label>
+                            <input type="number" id="subtract-val2" placeholder="Enter value">
+                            <select id="subtract-unit2"></select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="doConversion('volume')">Convert</button>
-                    <div id="result-volume" class="result-box hidden">
-                        <div class="label">Result</div>
-                        <div class="value" id="result-volume-value"></div>
-                        <div class="explanation" id="result-volume-exp"></div>
+                    <div style="display: flex; align-items: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="doSubtract()">Subtract</button>
+                        <div id="result-subtract" class="result-box hidden">
+                            <div class="label">Result</div>
+                            <div class="value" id="result-subtract-value"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Temperature Tab -->
-            <div id="tab-temperature" class="tab-content">
-                <div class="content-card">
-                    <h3>Temperature Conversion</h3>
-                    <div class="conversion-container">
+                <!-- Divide Operation -->
+                <div id="operation-divide" class="operation-content">
+                    <div class="form-row">
                         <div class="input-group">
-                            <label>Enter Value</label>
-                            <input type="number" id="temperature-value" placeholder="100">
-                            <select id="temperature-from">
-                                <option value="CELSIUS">Celsius</option>
-                                <option value="FAHRENHEIT">Fahrenheit</option>
-                                <option value="KELVIN">Kelvin</option>
-                            </select>
+                            <label>Quantity 1</label>
+                            <input type="number" id="divide-val1" placeholder="Enter value">
+                            <select id="divide-unit1"></select>
                         </div>
-                        <div class="arrow-icon">→</div>
                         <div class="input-group">
-                            <label>Convert To</label>
-                            <select id="temperature-to">
-                                <option value="CELSIUS">Celsius</option>
-                                <option value="FAHRENHEIT" selected>Fahrenheit</option>
-                                <option value="KELVIN">Kelvin</option>
-                            </select>
+                            <label>Quantity 2</label>
+                            <input type="number" id="divide-val2" placeholder="Enter value">
+                            <select id="divide-unit2"></select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="doConversion('temperature')">Convert</button>
-                    <div id="result-temperature" class="result-box hidden">
-                        <div class="label">Result</div>
-                        <div class="value" id="result-temperature-value"></div>
-                        <div class="explanation" id="result-temperature-exp"></div>
+                    <div style="display: flex; align-items: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="doDivide()">Divide</button>
+                        <div id="result-divide" class="result-box hidden">
+                            <div class="label">Result</div>
+                            <div class="value" id="result-divide-value"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- History Tab -->
-            <div id="tab-history" class="tab-content">
-                <div class="content-card">
-                    <h3>Conversion History</h3>
-                    <div class="history-actions">
-                        <button class="btn btn-outline btn-sm" onclick="loadHistory()">Refresh</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteAllHistory()">Delete All</button>
-                    </div>
-                    <div id="history-table-container">
-                        <p>Click Refresh to load history.</p>
-                    </div>
+            <div id="tab-history" class="content-card hidden">
+                <h3>Conversion History</h3>
+                <div class="history-actions">
+                    <button class="btn btn-outline btn-sm" onclick="loadHistory()">Refresh</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteAllHistory()">Delete All</button>
+                </div>
+                <div id="history-table-container">
+                    <p>Click Refresh to load history.</p>
                 </div>
             </div>
 
             <!-- Profile Tab -->
-            <div id="tab-profile" class="tab-content">
-                <div class="content-card">
-                    <h3>My Profile</h3>
-                    <div id="profile-success" class="success-msg hidden"></div>
-                    <div id="profile-error" class="error-msg hidden"></div>
-                    <div class="profile-card">
-                        <div class="profile-avatar" id="profile-avatar"></div>
-                        <div class="profile-fields">
-                            <div class="form-group">
-                                <label>Full Name</label>
-                                <input type="text" id="profile-name" placeholder="Your name">
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" id="profile-email" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" id="profile-phone" placeholder="Your phone number">
-                            </div>
-                            <div class="form-group">
-                                <label>Bio</label>
-                                <textarea id="profile-bio" placeholder="Tell something about yourself"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Login Provider</label>
-                                <input type="text" id="profile-provider" disabled>
-                            </div>
-                            <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+            <div id="tab-profile" class="content-card hidden">
+                <h3>My Profile</h3>
+                <div id="profile-success" class="success-msg hidden"></div>
+                <div id="profile-error" class="error-msg hidden"></div>
+                <div class="profile-card">
+                    <div class="profile-avatar" id="profile-avatar"></div>
+                    <div class="profile-fields">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profile-name" placeholder="Your name">
                         </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profile-email" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" id="profile-phone" placeholder="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="profile-bio" placeholder="Tell something about yourself"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Login Provider</label>
+                            <input type="text" id="profile-provider" disabled>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
                     </div>
                 </div>
             </div>
