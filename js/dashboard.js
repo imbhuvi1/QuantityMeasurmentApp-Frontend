@@ -54,18 +54,18 @@ function buildQ(val, unitId, tab) {
     return { value: parseFloat(val), unit: document.getElementById(unitId).value, measurementType: type };
 }
 
+async function handleResponse(res, formatter) {
+    const json = await res.json();
+    if (!json.success) return showResult(`Error: ${json.message}`, true);
+    showResult(formatter(json.data));
+}
+
 // Compare
 async function doCompare() {
     const q1 = buildQ(document.getElementById('compare-val1').value, 'compare-unit1', 'compare');
     const q2 = buildQ(document.getElementById('compare-val2').value, 'compare-unit2', 'compare');
-    try {
-        const res = await compare(q1, q2);
-        const data = await res.json();
-        if (data.error) return showResult(`Error: ${data.error}`, true);
-        showResult(`Result: ${data === true ? '✅ Equal' : '❌ Not Equal'}`);
-    } catch (e) {
-        showResult('Error: ' + e.message, true);
-    }
+    const res = await compare(q1, q2);
+    await handleResponse(res, data => `Result: ${data === true ? '✅ Equal' : '❌ Not Equal'}`);
 }
 
 // Convert
@@ -73,82 +73,56 @@ async function doConvert() {
     const type = document.getElementById('convert-type').value;
     const q1 = buildQ(document.getElementById('convert-val1').value, 'convert-unit1', 'convert');
     const q2 = { value: 0, unit: document.getElementById('convert-unit2').value, measurementType: type };
-    try {
-        const res = await convert(q1, q2);
-        const data = await res.json();
-        if (data.error) return showResult(`Error: ${data.error}`, true);
-        showResult(`Result: ${data.value} ${data.unit}`);
-    } catch (e) {
-        showResult('Error: ' + e.message, true);
-    }
+    const res = await convert(q1, q2);
+    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
 }
 
 // Add
 async function doAdd() {
     const q1 = buildQ(document.getElementById('add-val1').value, 'add-unit1', 'add');
     const q2 = buildQ(document.getElementById('add-val2').value, 'add-unit2', 'add');
-    try {
-        const res = await add(q1, q2);
-        const data = await res.json();
-        if (data.error) return showResult(`Error: ${data.error}`, true);
-        showResult(`Result: ${data.value} ${data.unit}`);
-    } catch (e) {
-        showResult('Error: ' + e.message, true);
-    }
+    const res = await add(q1, q2);
+    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
 }
 
 // Subtract
 async function doSubtract() {
     const q1 = buildQ(document.getElementById('subtract-val1').value, 'subtract-unit1', 'subtract');
     const q2 = buildQ(document.getElementById('subtract-val2').value, 'subtract-unit2', 'subtract');
-    try {
-        const res = await subtract(q1, q2);
-        const data = await res.json();
-        if (data.error) return showResult(`Error: ${data.error}`, true);
-        showResult(`Result: ${data.value} ${data.unit}`);
-    } catch (e) {
-        showResult('Error: ' + e.message, true);
-    }
+    const res = await subtract(q1, q2);
+    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
 }
 
 // Divide
 async function doDivide() {
     const q1 = buildQ(document.getElementById('divide-val1').value, 'divide-unit1', 'divide');
     const q2 = buildQ(document.getElementById('divide-val2').value, 'divide-unit2', 'divide');
-    try {
-        const res = await divide(q1, q2);
-        const data = await res.json();
-        if (data.error) return showResult(`Error: ${data.error}`, true);
-        showResult(`Result: ${data}`);
-    } catch (e) {
-        showResult('Error: ' + e.message, true);
-    }
+    const res = await divide(q1, q2);
+    await handleResponse(res, data => `Result: ${data}`);
 }
 
 // History
 async function loadHistory() {
     const container = document.getElementById('history-table-container');
     container.innerHTML = '<p>Loading...</p>';
-    try {
-        const res = await getHistory();
-        const data = await res.json();
-        if (!data.length) { container.innerHTML = '<p>No history found.</p>'; return; }
-        let html = `<table><thead><tr><th>#</th><th>Operation</th><th>Input 1</th><th>Input 2</th><th>Result</th><th>Status</th></tr></thead><tbody>`;
-        data.forEach((item, i) => {
-            html += `<tr>
-                <td>${i + 1}</td>
-                <td>${item.operation}</td>
-                <td>${item.thisValue} ${item.thisUnit}</td>
-                <td>${item.thatValue != null ? item.thatValue + ' ' + item.thatUnit : '-'}</td>
-                <td>${item.resultValue != null ? item.resultValue + ' ' + item.resultUnit : item.resultString || '-'}</td>
-                <td>${item.error ? '❌ Error' : '✅ Success'}</td>
-            </tr>`;
-        });
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    } catch (e) {
-        container.innerHTML = '<p style="color:red">Error loading history.</p>';
-    }
+    const res = await getHistory();
+    const json = await res.json();
+    if (!json.success) { container.innerHTML = `<p style="color:red">${json.message}</p>`; return; }
+    const data = json.data;
+    if (!data.length) { container.innerHTML = '<p>No history found.</p>'; return; }
+    let html = `<table><thead><tr><th>#</th><th>Operation</th><th>Input 1</th><th>Input 2</th><th>Result</th><th>Status</th></tr></thead><tbody>`;
+    data.forEach((item, i) => {
+        html += `<tr>
+            <td>${i + 1}</td>
+            <td>${item.operation}</td>
+            <td>${item.thisValue} ${item.thisUnit}</td>
+            <td>${item.thatValue != null ? item.thatValue + ' ' + item.thatUnit : '-'}</td>
+            <td>${item.resultValue != null ? item.resultValue + ' ' + item.resultUnit : item.resultString || '-'}</td>
+            <td>${item.error ? '❌ Error' : '✅ Success'}</td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
 }
 
 // Init all dropdowns on load
