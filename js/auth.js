@@ -54,11 +54,17 @@ function toggleTheme() {
     }
 }
 
-// Apply saved theme on page load
+// Apply saved theme on page load or default to dark
 (function () {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    if (savedTheme === 'light') {
+        document.documentElement.removeAttribute('data-theme');
+        const btn = document.getElementById('themeBtn');
+        if (btn) btn.textContent = '🌙';
+    } else {
+        // Default to dark theme
         document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
         const btn = document.getElementById('themeBtn');
         if (btn) btn.textContent = '☀️';
     }
