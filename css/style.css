@@ -19,7 +19,8 @@
     --table-header: #f5f3ff;
     --table-hover: #fafafa;
     --result-bg: #f5f3ff;
-    --shadow: rgba(0,0,0,0.08);
+    --shadow: rgba(79, 70, 229, 0.10);
+    --card-border: #e0e7ff;
 }
 
 [data-theme="dark"] {
@@ -136,6 +137,7 @@ body {
     max-width: 600px;
     width: 100%;
     text-align: center;
+    border: 1px solid var(--card-border, var(--border));
     box-shadow: 0 4px 24px var(--shadow);
 }
 
@@ -201,6 +203,7 @@ body {
     padding: 40px;
     max-width: 420px;
     width: 100%;
+    border: 1px solid var(--card-border, var(--border));
     box-shadow: 0 4px 24px var(--shadow);
 }
 
@@ -349,7 +352,8 @@ body {
     background: var(--card-bg);
     border-radius: 16px;
     padding: 28px;
-    box-shadow: 0 2px 12px var(--shadow);
+    border: 1px solid var(--card-border, var(--border));
+    box-shadow: 0 4px 18px var(--shadow);
 }
 
 .tab-content.active {

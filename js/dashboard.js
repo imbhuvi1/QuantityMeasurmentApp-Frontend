@@ -113,12 +113,10 @@ async function loadHistory() {
     if (!data.length) { container.innerHTML = '<p>No history found.</p>'; return; }
     let html = `<table>
         <thead><tr>
-            <th><input type="checkbox" id="select-all" onclick="toggleSelectAll(this)"></th>
             <th>#</th><th>Operation</th><th>Input 1</th><th>Input 2</th><th>Result</th><th>Status</th><th>Action</th>
         </tr></thead><tbody>`;
     data.forEach((item, i) => {
         html += `<tr>
-            <td><input type="checkbox" class="row-check" value="${item.id}" onchange="updateDeleteSelected()"></td>
             <td>${i + 1}</td>
             <td>${item.operation}</td>
             <td>${item.thisValue} ${item.thisUnit}</td>
@@ -130,33 +128,11 @@ async function loadHistory() {
     });
     html += '</tbody></table>';
     container.innerHTML = html;
-    updateDeleteSelected();
-}
-
-function toggleSelectAll(checkbox) {
-    document.querySelectorAll('.row-check').forEach(c => c.checked = checkbox.checked);
-    updateDeleteSelected();
-}
-
-function updateDeleteSelected() {
-    const checked = document.querySelectorAll('.row-check:checked');
-    document.getElementById('btn-delete-selected').disabled = checked.length === 0;
 }
 
 async function deleteSingle(id) {
     if (!confirm('Delete this record?')) return;
     const res = await deleteById(id);
-    const json = await res.json();
-    if (!json.success) return alert('Error: ' + json.message);
-    loadHistory();
-}
-
-async function deleteSelected() {
-    const checked = [...document.querySelectorAll('.row-check:checked')];
-    if (!checked.length) return;
-    if (!confirm(`Delete ${checked.length} selected record(s)?`)) return;
-    const ids = checked.map(c => parseInt(c.value));
-    const res = await deleteByIds(ids);
     const json = await res.json();
     if (!json.success) return alert('Error: ' + json.message);
     loadHistory();
