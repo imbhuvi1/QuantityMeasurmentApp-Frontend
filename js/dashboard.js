@@ -35,18 +35,19 @@ function switchTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
     document.getElementById(`tab-${tabName}`).classList.add('active');
-    hideResult();
+    ['compare','convert','add','subtract','divide'].forEach(t => hideResult(t));
 }
 
-function showResult(message, isError = false) {
-    const box = document.getElementById('result-box');
+function showResult(tab, message, isError = false) {
+    const box = document.getElementById(`result-${tab}`);
     box.textContent = message;
     box.classList.remove('hidden', 'error');
     if (isError) box.classList.add('error');
 }
 
-function hideResult() {
-    document.getElementById('result-box').classList.add('hidden');
+function hideResult(tab) {
+    const box = document.getElementById(`result-${tab}`);
+    if (box) box.classList.add('hidden');
 }
 
 function buildQ(val, unitId, tab) {
@@ -54,10 +55,10 @@ function buildQ(val, unitId, tab) {
     return { value: parseFloat(val), unit: document.getElementById(unitId).value, measurementType: type };
 }
 
-async function handleResponse(res, formatter) {
+async function handleResponse(tab, res, formatter) {
     const json = await res.json();
-    if (!json.success) return showResult(`Error: ${json.message}`, true);
-    showResult(formatter(json.data));
+    if (!json.success) return showResult(tab, `Error: ${json.message}`, true);
+    showResult(tab, formatter(json.data));
 }
 
 // Compare
@@ -65,7 +66,7 @@ async function doCompare() {
     const q1 = buildQ(document.getElementById('compare-val1').value, 'compare-unit1', 'compare');
     const q2 = buildQ(document.getElementById('compare-val2').value, 'compare-unit2', 'compare');
     const res = await compare(q1, q2);
-    await handleResponse(res, data => `Result: ${data === true ? '✅ Equal' : '❌ Not Equal'}`);
+    await handleResponse('compare', res, data => `${data === true ? '✅ Equal' : '❌ Not Equal'}`);
 }
 
 // Convert
@@ -74,7 +75,7 @@ async function doConvert() {
     const q1 = buildQ(document.getElementById('convert-val1').value, 'convert-unit1', 'convert');
     const q2 = { value: 0, unit: document.getElementById('convert-unit2').value, measurementType: type };
     const res = await convert(q1, q2);
-    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
+    await handleResponse('convert', res, data => `${data.value} ${data.unit}`);
 }
 
 // Add
@@ -82,7 +83,7 @@ async function doAdd() {
     const q1 = buildQ(document.getElementById('add-val1').value, 'add-unit1', 'add');
     const q2 = buildQ(document.getElementById('add-val2').value, 'add-unit2', 'add');
     const res = await add(q1, q2);
-    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
+    await handleResponse('add', res, data => `${data.value} ${data.unit}`);
 }
 
 // Subtract
@@ -90,7 +91,7 @@ async function doSubtract() {
     const q1 = buildQ(document.getElementById('subtract-val1').value, 'subtract-unit1', 'subtract');
     const q2 = buildQ(document.getElementById('subtract-val2').value, 'subtract-unit2', 'subtract');
     const res = await subtract(q1, q2);
-    await handleResponse(res, data => `Result: ${data.value} ${data.unit}`);
+    await handleResponse('subtract', res, data => `${data.value} ${data.unit}`);
 }
 
 // Divide
@@ -98,7 +99,7 @@ async function doDivide() {
     const q1 = buildQ(document.getElementById('divide-val1').value, 'divide-unit1', 'divide');
     const q2 = buildQ(document.getElementById('divide-val2').value, 'divide-unit2', 'divide');
     const res = await divide(q1, q2);
-    await handleResponse(res, data => `Result: ${data}`);
+    await handleResponse('divide', res, data => `${data}`);
 }
 
 // History

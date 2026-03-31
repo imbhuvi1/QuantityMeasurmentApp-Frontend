@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-brand">⚖️ Quantity Measurement App</div>
         <div class="nav-right">
@@ -19,7 +18,6 @@
 
     <div class="dashboard-container">
 
-        <!-- Operation Tabs -->
         <div class="tabs">
             <button class="tab active" onclick="switchTab('compare')">Compare</button>
             <button class="tab" onclick="switchTab('convert')">Convert</button>
@@ -28,9 +26,6 @@
             <button class="tab" onclick="switchTab('divide')">Divide</button>
             <button class="tab" onclick="switchTab('history')">History</button>
         </div>
-
-        <!-- Result Box -->
-        <div id="result-box" class="result-box hidden"></div>
 
         <!-- Compare -->
         <div id="tab-compare" class="tab-content active">
@@ -56,7 +51,10 @@
                     <select id="compare-unit2" class="input-field"></select>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="doCompare()">Compare</button>
+            <div class="action-row">
+                <button class="btn btn-primary" onclick="doCompare()">Compare</button>
+                <div id="result-compare" class="result-display hidden"></div>
+            </div>
         </div>
 
         <!-- Convert -->
@@ -82,7 +80,10 @@
                     <select id="convert-unit2" class="input-field"></select>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="doConvert()">Convert</button>
+            <div class="action-row">
+                <button class="btn btn-primary" onclick="doConvert()">Convert</button>
+                <div id="result-convert" class="result-display hidden"></div>
+            </div>
         </div>
 
         <!-- Add -->
@@ -109,7 +110,10 @@
                     <select id="add-unit2" class="input-field"></select>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="doAdd()">Add</button>
+            <div class="action-row">
+                <button class="btn btn-primary" onclick="doAdd()">Add</button>
+                <div id="result-add" class="result-display hidden"></div>
+            </div>
         </div>
 
         <!-- Subtract -->
@@ -136,7 +140,10 @@
                     <select id="subtract-unit2" class="input-field"></select>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="doSubtract()">Subtract</button>
+            <div class="action-row">
+                <button class="btn btn-primary" onclick="doSubtract()">Subtract</button>
+                <div id="result-subtract" class="result-display hidden"></div>
+            </div>
         </div>
 
         <!-- Divide -->
@@ -163,7 +170,10 @@
                     <select id="divide-unit2" class="input-field"></select>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="doDivide()">Divide</button>
+            <div class="action-row">
+                <button class="btn btn-primary" onclick="doDivide()">Divide</button>
+                <div id="result-divide" class="result-display hidden"></div>
+            </div>
         </div>
 
         <!-- History -->
