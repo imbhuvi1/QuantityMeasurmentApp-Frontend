@@ -59,7 +59,7 @@ body {
 /* ===== BUTTONS ===== */
 .btn {
     padding: 12px 32px;
-    border-radius: 10px;
+    border-radius: 4px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
@@ -83,12 +83,24 @@ body {
 }
 
 .btn-outline {
-    background: transparent;
-    color: var(--text-dark);
-    border: 2px solid var(--border-lighter);
+    background: white;
+    color: #1A1A1A;
+    border: 2px solid #E5E7EB;
 }
 
 .btn-outline:hover {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+[data-theme="dark"] .btn-outline {
+    background: transparent;
+    color: #E8EDF2;
+    border-color: var(--border-light);
+}
+
+[data-theme="dark"] .btn-outline:hover {
     background: var(--primary-blue);
     color: white;
     border-color: var(--primary-blue);
@@ -246,7 +258,7 @@ body {
     max-width: 700px;
     background: var(--gradient-card);
     padding: 60px 80px;
-    border-radius: 16px;
+    border-radius: 4px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border-light);
 }
@@ -269,7 +281,7 @@ body {
 /* ===== WELCOME BANNER ===== */
 .welcome-banner {
     background: var(--gradient-card);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 32px 40px;
     margin-bottom: 32px;
     box-shadow: var(--shadow-md);
@@ -291,7 +303,7 @@ body {
 /* ===== CONTENT CARD ===== */
 .content-card {
     background: var(--white);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 40px;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-lighter);
@@ -332,7 +344,7 @@ body {
 
 .type-pill {
     padding: 12px 24px;
-    border-radius: 24px;
+    border-radius: 4px;
     border: 2px solid var(--border-lighter);
     background: var(--white);
     cursor: pointer;
@@ -392,7 +404,7 @@ body {
 .input-group select {
     padding: 14px 18px;
     border: 2px solid var(--border-lighter);
-    border-radius: 10px;
+    border-radius: 4px;
     font-size: 15px;
     font-family: inherit;
     transition: all 0.3s ease;
@@ -428,10 +440,10 @@ body {
     background: var(--white);
     border: 2px solid var(--border-lighter);
     padding: 14px 24px;
-    border-radius: 10px;
+    border-radius: 4px;
     margin-top: 0;
     margin-left: 20px;
-    min-width: 280px;
+    flex: 1;
     transition: all 0.3s ease;
 }
 
@@ -536,7 +548,7 @@ tr:hover td {
     width: 100%;
     padding: 14px 18px;
     border: 2px solid var(--border-lighter);
-    border-radius: 10px;
+    border-radius: 4px;
     font-size: 15px;
     font-family: inherit;
     transition: all 0.3s ease;
@@ -564,7 +576,7 @@ tr:hover td {
 
 .error-msg, .success-msg {
     padding: 14px 20px;
-    border-radius: 10px;
+    border-radius: 4px;
     font-size: 14px;
     margin-bottom: 24px;
     font-weight: 500;
@@ -593,6 +605,11 @@ tr:hover td {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+[data-theme="dark"] .landing-navbar {
+    background: var(--darker-navy);
+    border-bottom: 1px solid var(--border-light);
 }
 
 .landing-logo {
@@ -705,16 +722,25 @@ tr:hover td {
 
 .hero-right {
     background: white;
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 32px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border-lighter);
+}
+
+[data-theme="dark"] .hero-right {
+    background: var(--white);
+    border-color: var(--border-light);
 }
 
 /* Features Section */
 .features-section {
     padding: 80px 80px;
     background: white;
+}
+
+[data-theme="dark"] .features-section {
+    background: var(--light-grey);
 }
 
 .features-container {
@@ -730,11 +756,16 @@ tr:hover td {
 }
 
 .feature-card {
-    background: var(--light-grey);
+    background: #F5F7FA;
     padding: 36px;
-    border-radius: 16px;
+    border-radius: 4px;
     border: 1px solid var(--border-lighter);
     transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .feature-card {
+    background: var(--white);
+    border-color: var(--border-light);
 }
 
 .feature-card:hover {
@@ -811,6 +842,10 @@ tr:hover td {
     align-items: center;
     justify-content: center;
     padding: 60px;
+}
+
+[data-theme="dark"] .auth-right {
+    background: var(--light-grey);
 }
 
 .auth-card {
