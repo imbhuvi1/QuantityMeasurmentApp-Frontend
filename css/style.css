@@ -5,44 +5,47 @@
 }
 
 :root {
-    --bg: #f0f4f8;
+    --bg: #f0f4f7;
     --card-bg: #ffffff;
-    --text: #333333;
-    --text-muted: #6b7280;
-    --border: #d1d5db;
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
-    --primary-light: #f5f3ff;
-    --navbar-bg: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #555555;
+    --border: #c8d6e0;
+    --primary: #0070ad;
+    --primary-dark: #005a8e;
+    --primary-light: #e6f2f9;
+    --navbar-bg: #0070ad;
+    --navbar-text: #ffffff;
     --input-bg: #ffffff;
     --tab-bg: #ffffff;
-    --table-header: #f5f3ff;
-    --table-hover: #fafafa;
-    --result-bg: #f5f3ff;
-    --shadow: rgba(0, 0, 0, 0.15);
-    --card-border: #e0e7ff;
+    --table-header: #e6f2f9;
+    --table-hover: #f5fafd;
+    --result-bg: #e6f2f9;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
+    --card-border: #b3d4e8;
 }
 
 [data-theme="dark"] {
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --primary: #818cf8;
-    --primary-dark: #6366f1;
-    --primary-light: #1e1b4b;
-    --navbar-bg: #1e293b;
-    --input-bg: #0f172a;
-    --tab-bg: #1e293b;
-    --table-header: #1e1b4b;
-    --table-hover: #263148;
-    --result-bg: #1e1b4b;
-    --shadow: rgba(0,0,0,0.3);
+    --bg: #001f3f;
+    --card-bg: #003d6b;
+    --text: #f0f4f8;
+    --text-muted: #a0bcd0;
+    --border: #005a8e;
+    --primary: #33a0d4;
+    --primary-dark: #0070ad;
+    --primary-light: #002d55;
+    --navbar-bg: #001f3f;
+    --navbar-text: #ffffff;
+    --input-bg: #002d55;
+    --tab-bg: #003d6b;
+    --table-header: #002d55;
+    --table-hover: #004a7c;
+    --result-bg: #002d55;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --card-border: #005a8e;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     transition: background 0.3s, color 0.3s;
@@ -51,14 +54,16 @@ body {
 /* ===== BUTTONS ===== */
 .btn {
     padding: 10px 24px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: none;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s;
+    letter-spacing: 0.3px;
 }
 
 .btn-primary {
@@ -87,12 +92,12 @@ body {
 }
 
 .btn-danger {
-    background: #dc2626;
+    background: #cc0000;
     color: white;
 }
 
 .btn-danger:hover {
-    background: #b91c1c;
+    background: #aa0000;
 }
 
 .history-actions {
@@ -108,9 +113,9 @@ body {
 
 /* ===== THEME TOGGLE ===== */
 .theme-toggle {
-    background: var(--primary-light);
-    border: none;
-    border-radius: 8px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 4px;
     padding: 8px 12px;
     cursor: pointer;
     font-size: 18px;
@@ -118,7 +123,7 @@ body {
 }
 
 .theme-toggle:hover {
-    background: var(--border);
+    background: rgba(255,255,255,0.35);
 }
 
 /* ===== LANDING PAGE ===== */
@@ -132,24 +137,26 @@ body {
 
 .landing-card {
     background: var(--card-bg);
-    border-radius: 16px;
+    border-radius: 6px;
     padding: 48px;
     max-width: 600px;
     width: 100%;
     text-align: center;
-    border: 1px solid var(--card-border, var(--border));
-    box-shadow: 0 4px 24px var(--shadow);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
 }
 
 .landing-card h1 {
-    font-size: 32px;
-    color: var(--text);
+    font-size: 30px;
+    color: var(--primary);
     margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .landing-card p {
     color: var(--text-muted);
-    font-size: 16px;
+    font-size: 15px;
     margin-bottom: 32px;
 }
 
@@ -161,9 +168,12 @@ body {
 }
 
 .supported-units h3 {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text);
     margin-bottom: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .units-grid {
@@ -174,11 +184,12 @@ body {
 
 .unit-card {
     background: var(--primary-light);
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 16px;
     font-size: 14px;
     font-weight: 600;
     color: var(--primary);
+    border-left: 3px solid var(--primary);
 }
 
 .unit-card small {
@@ -195,27 +206,31 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background: var(--bg);
 }
 
 .auth-card {
     background: var(--card-bg);
-    border-radius: 16px;
+    border-radius: 6px;
     padding: 40px;
     max-width: 420px;
     width: 100%;
-    border: 1px solid var(--card-border, var(--border));
-    box-shadow: 0 4px 24px var(--shadow);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
 }
 
 .auth-card h2 {
-    font-size: 26px;
-    color: var(--text);
+    font-size: 24px;
+    color: var(--primary);
     margin-bottom: 6px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
 }
 
 .auth-subtitle {
     color: var(--text-muted);
     margin-bottom: 28px;
+    font-size: 14px;
 }
 
 .form-group {
@@ -224,18 +239,21 @@ body {
 
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text);
     margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .form-group input {
     width: 100%;
     padding: 10px 14px;
     border: 1.5px solid var(--border);
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 14px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
     outline: none;
     background: var(--input-bg);
     color: var(--text);
@@ -260,20 +278,22 @@ body {
 }
 
 .error-msg {
-    background: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
+    background: #fff0f0;
+    color: #cc0000;
+    border: 1px solid #ffb3b3;
+    border-left: 3px solid #cc0000;
+    border-radius: 4px;
     padding: 10px 14px;
     font-size: 14px;
     margin-bottom: 16px;
 }
 
 .success-msg {
-    background: #f0fdf4;
-    color: #16a34a;
-    border: 1px solid #bbf7d0;
-    border-radius: 8px;
+    background: #f0fff4;
+    color: #007a33;
+    border: 1px solid #b3f0cc;
+    border-left: 3px solid #007a33;
+    border-radius: 4px;
     padding: 10px 14px;
     font-size: 14px;
     margin-bottom: 16px;
@@ -286,16 +306,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px var(--shadow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
 .nav-brand {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    color: var(--text);
+    color: var(--navbar-text);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .nav-right {
@@ -306,8 +328,18 @@ body {
 
 .nav-user {
     font-size: 14px;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.85);
     font-weight: 500;
+}
+
+.navbar .btn-outline {
+    color: white;
+    border-color: rgba(255,255,255,0.6);
+}
+
+.navbar .btn-outline:hover {
+    background: white;
+    color: var(--primary);
 }
 
 /* ===== DASHBOARD ===== */
@@ -319,21 +351,24 @@ body {
 
 .tabs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
     margin-bottom: 24px;
 }
 
 .tab {
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 9px 20px;
+    border-radius: 4px;
     border: 2px solid var(--border);
     background: var(--tab-bg);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
     color: var(--text-muted);
     transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .tab:hover {
@@ -350,10 +385,10 @@ body {
 .tab-content {
     display: none;
     background: var(--card-bg);
-    border-radius: 16px;
+    border-radius: 6px;
     padding: 28px;
-    border: 1px solid var(--card-border, var(--border));
-    box-shadow: 0 4px 18px var(--shadow);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
 }
 
 .tab-content.active {
@@ -361,9 +396,14 @@ body {
 }
 
 .tab-content h3 {
-    font-size: 20px;
-    color: var(--text);
+    font-size: 18px;
+    color: var(--primary);
     margin-bottom: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 12px;
 }
 
 .form-row {
@@ -381,10 +421,12 @@ body {
 }
 
 .form-group-inline label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text);
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .form-group-inline .input-field {
@@ -393,17 +435,21 @@ body {
 }
 
 .quantity-form h4 {
-    font-size: 14px;
-    color: var(--text);
+    font-size: 13px;
+    color: var(--text-muted);
     margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
 }
 
 .input-field {
     width: 100%;
     padding: 10px 14px;
     border: 1.5px solid var(--border);
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 14px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
     outline: none;
     margin-bottom: 10px;
     background: var(--input-bg);
@@ -422,15 +468,15 @@ body {
     justify-content: space-between;
     gap: 16px;
     margin-top: 8px;
-    border-top: 1.5px solid var(--border);
+    border-top: 2px solid var(--primary-light);
     padding-top: 20px;
 }
 
 .result-display {
     flex: 1;
-    background: var(--input-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
+    background: var(--primary-light);
+    border: 1.5px solid var(--card-border);
+    border-radius: 4px;
     padding: 12px 20px;
     font-size: 22px;
     font-weight: 700;
@@ -442,8 +488,8 @@ body {
 }
 
 .result-display.error {
-    border-color: #dc2626;
-    color: #dc2626;
+    border-color: #cc0000;
+    color: #cc0000;
     font-size: 14px;
     font-weight: 600;
 }
@@ -465,7 +511,10 @@ th {
     color: var(--primary);
     padding: 10px 14px;
     text-align: left;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 2px solid var(--primary);
 }
 
 td {
