@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quantity Measurement App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">⚖️ Quantity Measurement App</div>
+        <div class="nav-right">
+            <span id="userName" class="nav-user"></span>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="btn btn-outline btn-sm" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+        <!-- Operation Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('compare')">Compare</button>
+            <button class="tab" onclick="switchTab('convert')">Convert</button>
+            <button class="tab" onclick="switchTab('add')">Add</button>
+            <button class="tab" onclick="switchTab('subtract')">Subtract</button>
+            <button class="tab" onclick="switchTab('divide')">Divide</button>
+            <button class="tab" onclick="switchTab('history')">History</button>
+        </div>
+
+        <!-- Result Box -->
+        <div id="result-box" class="result-box hidden"></div>
+
+        <!-- Compare -->
+        <div id="tab-compare" class="tab-content active">
+            <h3>Compare Two Quantities</h3>
+            <div class="form-group-inline">
+                <label>Measurement Type</label>
+                <select id="compare-type" class="input-field" onchange="syncUnits('compare')">
+                    <option value="LENGTH">LENGTH</option>
+                    <option value="WEIGHT">WEIGHT</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="TEMPERATURE">TEMPERATURE</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="quantity-form">
+                    <h4>Quantity 1</h4>
+                    <input type="number" id="compare-val1" placeholder="Value" class="input-field">
+                    <select id="compare-unit1" class="input-field"></select>
+                </div>
+                <div class="quantity-form">
+                    <h4>Quantity 2</h4>
+                    <input type="number" id="compare-val2" placeholder="Value" class="input-field">
+                    <select id="compare-unit2" class="input-field"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="doCompare()">Compare</button>
+        </div>
+
+        <!-- Convert -->
+        <div id="tab-convert" class="tab-content">
+            <h3>Convert a Quantity</h3>
+            <div class="form-group-inline">
+                <label>Measurement Type</label>
+                <select id="convert-type" class="input-field" onchange="syncUnits('convert')">
+                    <option value="LENGTH">LENGTH</option>
+                    <option value="WEIGHT">WEIGHT</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="TEMPERATURE">TEMPERATURE</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="quantity-form">
+                    <h4>From</h4>
+                    <input type="number" id="convert-val1" placeholder="Value" class="input-field">
+                    <select id="convert-unit1" class="input-field"></select>
+                </div>
+                <div class="quantity-form">
+                    <h4>To</h4>
+                    <select id="convert-unit2" class="input-field"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="doConvert()">Convert</button>
+        </div>
+
+        <!-- Add -->
+        <div id="tab-add" class="tab-content">
+            <h3>Add Two Quantities</h3>
+            <div class="form-group-inline">
+                <label>Measurement Type</label>
+                <select id="add-type" class="input-field" onchange="syncUnits('add')">
+                    <option value="LENGTH">LENGTH</option>
+                    <option value="WEIGHT">WEIGHT</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="TEMPERATURE">TEMPERATURE</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="quantity-form">
+                    <h4>Quantity 1</h4>
+                    <input type="number" id="add-val1" placeholder="Value" class="input-field">
+                    <select id="add-unit1" class="input-field"></select>
+                </div>
+                <div class="quantity-form">
+                    <h4>Quantity 2</h4>
+                    <input type="number" id="add-val2" placeholder="Value" class="input-field">
+                    <select id="add-unit2" class="input-field"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="doAdd()">Add</button>
+        </div>
+
+        <!-- Subtract -->
+        <div id="tab-subtract" class="tab-content">
+            <h3>Subtract Two Quantities</h3>
+            <div class="form-group-inline">
+                <label>Measurement Type</label>
+                <select id="subtract-type" class="input-field" onchange="syncUnits('subtract')">
+                    <option value="LENGTH">LENGTH</option>
+                    <option value="WEIGHT">WEIGHT</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="TEMPERATURE">TEMPERATURE</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="quantity-form">
+                    <h4>Quantity 1</h4>
+                    <input type="number" id="subtract-val1" placeholder="Value" class="input-field">
+                    <select id="subtract-unit1" class="input-field"></select>
+                </div>
+                <div class="quantity-form">
+                    <h4>Quantity 2</h4>
+                    <input type="number" id="subtract-val2" placeholder="Value" class="input-field">
+                    <select id="subtract-unit2" class="input-field"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="doSubtract()">Subtract</button>
+        </div>
+
+        <!-- Divide -->
+        <div id="tab-divide" class="tab-content">
+            <h3>Divide Two Quantities</h3>
+            <div class="form-group-inline">
+                <label>Measurement Type</label>
+                <select id="divide-type" class="input-field" onchange="syncUnits('divide')">
+                    <option value="LENGTH">LENGTH</option>
+                    <option value="WEIGHT">WEIGHT</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="TEMPERATURE">TEMPERATURE</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="quantity-form">
+                    <h4>Quantity 1</h4>
+                    <input type="number" id="divide-val1" placeholder="Value" class="input-field">
+                    <select id="divide-unit1" class="input-field"></select>
+                </div>
+                <div class="quantity-form">
+                    <h4>Quantity 2</h4>
+                    <input type="number" id="divide-val2" placeholder="Value" class="input-field">
+                    <select id="divide-unit2" class="input-field"></select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="doDivide()">Divide</button>
+        </div>
+
+        <!-- History -->
+        <div id="tab-history" class="tab-content">
+            <h3>Operation History</h3>
+            <button class="btn btn-outline btn-sm" onclick="loadHistory()">🔄 Refresh</button>
+            <div id="history-table-container" class="table-container">
+                <p>Click Refresh to load history.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Quantity Measurement App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div style="text-align:right; margin-bottom:16px;">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+            <h2>⚖️ Register</h2>
+            <p class="auth-subtitle">Create your account</p>
+
+            <div id="error-msg" class="error-msg hidden"></div>
+            <div id="success-msg" class="success-msg hidden"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Register</button>
+            </form>
+
+            <p class="auth-link">Already have an account? <a href="login.html">Login</a></p>
+            <p class="auth-link"><a href="index.html">← Back to Home</a></p>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('registerBtn');
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
+
+            btn.textContent = 'Registering...';
+            btn.disabled = true;
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify({ email: data.email, name: data.name }));
+                    successMsg.textContent = 'Registered successfully! Redirecting...';
+                    successMsg.classList.remove('hidden');
+                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                } else {
+                    errorMsg.textContent = data.message || 'Registration failed. Email may already exist.';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Server error. Make sure backend is running.';
+                errorMsg.classList.remove('hidden');
+            }
+
+            btn.textContent = 'Register';
+            btn.disabled = false;
+        });
+    </script>
+</body>
+</html>
