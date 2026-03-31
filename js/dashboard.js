@@ -110,19 +110,63 @@ async function loadHistory() {
     if (!json.success) { container.innerHTML = `<p style="color:red">${json.message}</p>`; return; }
     const data = json.data;
     if (!data.length) { container.innerHTML = '<p>No history found.</p>'; return; }
-    let html = `<table><thead><tr><th>#</th><th>Operation</th><th>Input 1</th><th>Input 2</th><th>Result</th><th>Status</th></tr></thead><tbody>`;
+    let html = `<table>
+        <thead><tr>
+            <th><input type="checkbox" id="select-all" onclick="toggleSelectAll(this)"></th>
+            <th>#</th><th>Operation</th><th>Input 1</th><th>Input 2</th><th>Result</th><th>Status</th><th>Action</th>
+        </tr></thead><tbody>`;
     data.forEach((item, i) => {
         html += `<tr>
+            <td><input type="checkbox" class="row-check" value="${item.id}" onchange="updateDeleteSelected()"></td>
             <td>${i + 1}</td>
             <td>${item.operation}</td>
             <td>${item.thisValue} ${item.thisUnit}</td>
             <td>${item.thatValue != null ? item.thatValue + ' ' + item.thatUnit : '-'}</td>
             <td>${item.resultValue != null ? item.resultValue + ' ' + item.resultUnit : item.resultString || '-'}</td>
             <td>${item.error ? '❌ Error' : '✅ Success'}</td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteSingle(${item.id})">🗑</button></td>
         </tr>`;
     });
     html += '</tbody></table>';
     container.innerHTML = html;
+    updateDeleteSelected();
+}
+
+function toggleSelectAll(checkbox) {
+    document.querySelectorAll('.row-check').forEach(c => c.checked = checkbox.checked);
+    updateDeleteSelected();
+}
+
+function updateDeleteSelected() {
+    const checked = document.querySelectorAll('.row-check:checked');
+    document.getElementById('btn-delete-selected').disabled = checked.length === 0;
+}
+
+async function deleteSingle(id) {
+    if (!confirm('Delete this record?')) return;
+    const res = await deleteById(id);
+    const json = await res.json();
+    if (!json.success) return alert('Error: ' + json.message);
+    loadHistory();
+}
+
+async function deleteSelected() {
+    const checked = [...document.querySelectorAll('.row-check:checked')];
+    if (!checked.length) return;
+    if (!confirm(`Delete ${checked.length} selected record(s)?`)) return;
+    const ids = checked.map(c => parseInt(c.value));
+    const res = await deleteByIds(ids);
+    const json = await res.json();
+    if (!json.success) return alert('Error: ' + json.message);
+    loadHistory();
+}
+
+async function deleteAllHistory() {
+    if (!confirm('Delete ALL history? This cannot be undone.')) return;
+    const res = await deleteAll();
+    const json = await res.json();
+    if (!json.success) return alert('Error: ' + json.message);
+    loadHistory();
 }
 
 // Init all dropdowns on load

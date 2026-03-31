@@ -40,3 +40,15 @@ async function divide(q1, q2) {
 async function getHistory() {
     return await apiCall('/api/quantity/getHistory', 'GET');
 }
+
+async function deleteById(id) {
+    return await apiCall(`/api/quantity/deleteById?id=${id}`, 'DELETE');
+}
+
+async function deleteByIds(ids) {
+    return await apiCall('/api/quantity/deleteByIds', 'DELETE', ids);
+}
+
+async function deleteAll() {
+    return await apiCall('/api/quantity/deleteAll', 'DELETE');
+}
