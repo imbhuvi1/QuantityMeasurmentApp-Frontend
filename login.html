@@ -5,48 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Quantity Measurement App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div style="text-align:right; margin-bottom:16px;">
-                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            </div>
-            <h2>Login</h2>
-            <p class="auth-subtitle">Welcome back!</p>
+    <div class="auth-layout">
+        <!-- Left Side -->
+        <div class="auth-left">
+            <div class="logo-icon" style="width: 48px; height: 48px; font-size: 24px; margin-bottom: 24px;">📐</div>
+            <h2>Precision in Every Measurement</h2>
+            <p>Your trusted platform for accurate quantity conversions and calculations</p>
+        </div>
 
-            <div id="error-msg" class="error-msg hidden"></div>
+        <!-- Right Side -->
+        <div class="auth-right">
+            <div class="auth-card">
+                <h2>Login</h2>
+                <p class="subtitle">Welcome back! Please login to your account.</p>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                <div id="error-msg" class="error-msg hidden"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
+                </form>
+
+                <div class="auth-divider">
+                    <hr>
+                    <span>OR</span>
+                    <hr>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
-            </form>
 
-            <p class="auth-link">Don't have an account? <a href="register.html">Register</a></p>
-            <p class="auth-link"><a href="index.html">← Back to Home</a></p>
-
-            <div style="text-align:center; margin-top:20px;">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                    <hr style="flex:1; border-color:var(--border)">
-                    <span style="color:var(--text-muted); font-size:13px;">OR</span>
-                    <hr style="flex:1; border-color:var(--border)">
-                </div>
-                <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+                <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full google-btn">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
                     Continue with Google
                 </a>
+
+                <p class="auth-link">Don't have an account? <a href="register.html">Register</a></p>
+                <p class="auth-link"><a href="index.html">← Back to Home</a></p>
             </div>
         </div>
     </div>
+
     <script src="js/auth.js"></script>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
