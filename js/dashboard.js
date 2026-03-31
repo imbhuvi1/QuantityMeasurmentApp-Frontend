@@ -10,6 +10,15 @@ if (user) {
     document.getElementById('welcome-msg').textContent = `Welcome, ${user.name}!`;
 }
 
+function startCalculations() {
+    document.getElementById('welcome-screen').classList.add('hidden');
+    document.getElementById('calculation-interface').classList.remove('hidden');
+    const user = getUser();
+    if (user) {
+        document.getElementById('welcome-msg-small').textContent = `Welcome, ${user.name}!`;
+    }
+}
+
 const UNITS = {
     LENGTH: ['FEET', 'INCHES', 'YARDS', 'CENTIMETERS'],
     WEIGHT: ['MILLIGRAM', 'GRAM', 'KILOGRAM', 'POUND', 'TONNE'],
@@ -35,6 +44,14 @@ function init() {
 
 function switchOperation(operation) {
     currentOperation = operation;
+    
+    // Show calculation interface if hidden
+    document.getElementById('welcome-screen').classList.add('hidden');
+    document.getElementById('calculation-interface').classList.remove('hidden');
+    const user = getUser();
+    if (user) {
+        document.getElementById('welcome-msg-small').textContent = `Welcome, ${user.name}!`;
+    }
     
     // Update sidebar
     document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
