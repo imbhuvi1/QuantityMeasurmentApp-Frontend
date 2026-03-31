@@ -5,47 +5,49 @@
 }
 
 :root {
-    --bg: #f0f4f7;
+    --bg: #f2f2f2;
     --card-bg: #ffffff;
-    --text: #1a1a1a;
-    --text-muted: #555555;
-    --border: #c8d6e0;
-    --primary: #0070ad;
-    --primary-dark: #005a8e;
-    --primary-light: #e6f2f9;
-    --navbar-bg: #0070ad;
+    --text: #1c1c1c;
+    --text-muted: #666666;
+    --border: #d0d0d0;
+    --primary: #003d8f;
+    --primary-dark: #002d6b;
+    --primary-light: #e8eef8;
+    --accent: #12abdb;
+    --navbar-bg: #003d8f;
     --navbar-text: #ffffff;
     --input-bg: #ffffff;
     --tab-bg: #ffffff;
-    --table-header: #e6f2f9;
-    --table-hover: #f5fafd;
-    --result-bg: #e6f2f9;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
-    --card-border: #b3d4e8;
+    --table-header: #e8eef8;
+    --table-hover: #f5f7fc;
+    --result-bg: #e8eef8;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.13), 0 1px 4px rgba(0, 0, 0, 0.09);
+    --card-border: #c0cfe8;
 }
 
 [data-theme="dark"] {
-    --bg: #001f3f;
-    --card-bg: #003d6b;
+    --bg: #0a0f1e;
+    --card-bg: #111827;
     --text: #f0f4f8;
-    --text-muted: #a0bcd0;
-    --border: #005a8e;
-    --primary: #33a0d4;
-    --primary-dark: #0070ad;
-    --primary-light: #002d55;
-    --navbar-bg: #001f3f;
+    --text-muted: #9aafc4;
+    --border: #1e3a5f;
+    --primary: #12abdb;
+    --primary-dark: #0e8ab0;
+    --primary-light: #0d1f3c;
+    --accent: #12abdb;
+    --navbar-bg: #0a0f1e;
     --navbar-text: #ffffff;
-    --input-bg: #002d55;
-    --tab-bg: #003d6b;
-    --table-header: #002d55;
-    --table-hover: #004a7c;
-    --result-bg: #002d55;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    --card-border: #005a8e;
+    --input-bg: #0d1f3c;
+    --tab-bg: #111827;
+    --table-header: #0d1f3c;
+    --table-hover: #162840;
+    --result-bg: #0d1f3c;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+    --card-border: #1e3a5f;
 }
 
 body {
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     transition: background 0.3s, color 0.3s;
@@ -59,7 +61,7 @@ body {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s;
@@ -189,7 +191,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: var(--primary);
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--accent);
 }
 
 .unit-card small {
@@ -253,7 +255,7 @@ body {
     border: 1.5px solid var(--border);
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     outline: none;
     background: var(--input-bg);
     color: var(--text);
@@ -364,7 +366,7 @@ body {
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     color: var(--text-muted);
     transition: all 0.2s;
     text-transform: uppercase;
@@ -402,7 +404,7 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--primary-light);
+    border-bottom: 3px solid var(--accent);
     padding-bottom: 12px;
 }
 
@@ -449,7 +451,7 @@ body {
     border: 1.5px solid var(--border);
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     outline: none;
     margin-bottom: 10px;
     background: var(--input-bg);
@@ -468,7 +470,7 @@ body {
     justify-content: space-between;
     gap: 16px;
     margin-top: 8px;
-    border-top: 2px solid var(--primary-light);
+    border-top: 2px solid var(--accent);
     padding-top: 20px;
 }
 
@@ -514,7 +516,7 @@ th {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    border-bottom: 2px solid var(--primary);
+    border-bottom: 2px solid var(--accent);
 }
 
 td {
