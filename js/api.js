@@ -52,3 +52,11 @@ async function deleteByIds(ids) {
 async function deleteAll() {
     return await apiCall('/api/quantity/deleteAll', 'DELETE');
 }
+
+async function getProfile() {
+    return await apiCall('/api/user/profile', 'GET');
+}
+
+async function updateProfile(data) {
+    return await apiCall('/api/user/profile', 'PUT', data);
+}

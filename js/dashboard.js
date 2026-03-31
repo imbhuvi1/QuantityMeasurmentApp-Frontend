@@ -12,6 +12,24 @@ requireAuth();
 const user = getUser();
 if (user) document.getElementById('userName').textContent = `👤 ${user.name}`;
 
+function buildPills(tab) {
+    const container = document.getElementById(`${tab}-pills`);
+    if (!container) return;
+    container.innerHTML = '';
+    Object.keys(UNITS).forEach((type, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'type-pill' + (i === 0 ? ' active' : '');
+        btn.textContent = type;
+        btn.onclick = () => {
+            container.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(`${tab}-type`).value = type;
+            syncUnits(tab);
+        };
+        container.appendChild(btn);
+    });
+}
+
 function populateSelect(selectId, measurementType) {
     const select = document.getElementById(selectId);
     if (!select) return;
@@ -31,11 +49,12 @@ function syncUnits(tab) {
 }
 
 function switchTab(tabName) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    document.querySelector(`.sidebar-item[onclick="switchTab('${tabName}')"]`).classList.add('active');
     document.getElementById(`tab-${tabName}`).classList.add('active');
-    ['compare','convert','add','subtract','divide'].forEach(t => hideResult(t));
+    TABS.forEach(t => hideResult(t));
+    if (tabName === 'profile') loadProfile();
 }
 
 function showResult(tab, message, isError = false) {
@@ -61,7 +80,6 @@ async function handleResponse(tab, res, formatter) {
     showResult(tab, formatter(json.data));
 }
 
-// Compare
 async function doCompare() {
     const q1 = buildQ(document.getElementById('compare-val1').value, 'compare-unit1', 'compare');
     const q2 = buildQ(document.getElementById('compare-val2').value, 'compare-unit2', 'compare');
@@ -69,7 +87,6 @@ async function doCompare() {
     await handleResponse('compare', res, data => `${data === true ? 'Equal' : 'Not Equal'}`);
 }
 
-// Convert
 async function doConvert() {
     const type = document.getElementById('convert-type').value;
     const q1 = buildQ(document.getElementById('convert-val1').value, 'convert-unit1', 'convert');
@@ -78,7 +95,6 @@ async function doConvert() {
     await handleResponse('convert', res, data => `${data.value} ${data.unit}`);
 }
 
-// Add
 async function doAdd() {
     const q1 = buildQ(document.getElementById('add-val1').value, 'add-unit1', 'add');
     const q2 = buildQ(document.getElementById('add-val2').value, 'add-unit2', 'add');
@@ -86,7 +102,6 @@ async function doAdd() {
     await handleResponse('add', res, data => `${data.value} ${data.unit}`);
 }
 
-// Subtract
 async function doSubtract() {
     const q1 = buildQ(document.getElementById('subtract-val1').value, 'subtract-unit1', 'subtract');
     const q2 = buildQ(document.getElementById('subtract-val2').value, 'subtract-unit2', 'subtract');
@@ -94,7 +109,6 @@ async function doSubtract() {
     await handleResponse('subtract', res, data => `${data.value} ${data.unit}`);
 }
 
-// Divide
 async function doDivide() {
     const q1 = buildQ(document.getElementById('divide-val1').value, 'divide-unit1', 'divide');
     const q2 = buildQ(document.getElementById('divide-val2').value, 'divide-unit2', 'divide');
@@ -146,5 +160,44 @@ async function deleteAllHistory() {
     loadHistory();
 }
 
-// Init all dropdowns on load
-TABS.forEach(tab => syncUnits(tab));
+// Profile
+async function loadProfile() {
+    const res = await getProfile();
+    const json = await res.json();
+    if (!json.success) return;
+    const d = json.data;
+    document.getElementById('profile-name').value = d.name;
+    document.getElementById('profile-email').value = d.email;
+    document.getElementById('profile-phone').value = d.phone;
+    document.getElementById('profile-bio').value = d.bio;
+    document.getElementById('profile-provider').value = d.provider;
+    document.getElementById('profile-avatar').textContent = d.name ? d.name.charAt(0).toUpperCase() : '?';
+}
+
+async function saveProfile() {
+    const successEl = document.getElementById('profile-success');
+    const errorEl = document.getElementById('profile-error');
+    successEl.classList.add('hidden');
+    errorEl.classList.add('hidden');
+    const res = await updateProfile({
+        name: document.getElementById('profile-name').value,
+        phone: document.getElementById('profile-phone').value,
+        bio: document.getElementById('profile-bio').value
+    });
+    const json = await res.json();
+    if (!json.success) {
+        errorEl.textContent = json.message;
+        errorEl.classList.remove('hidden');
+        return;
+    }
+    successEl.textContent = 'Profile updated successfully!';
+    successEl.classList.remove('hidden');
+    const newName = document.getElementById('profile-name').value;
+    document.getElementById('profile-avatar').textContent = newName.charAt(0).toUpperCase();
+    document.getElementById('userName').textContent = `👤 ${newName}`;
+    const u = getUser();
+    if (u) localStorage.setItem('user', JSON.stringify({ ...u, name: newName }));
+}
+
+// Init
+TABS.forEach(tab => { buildPills(tab); syncUnits(tab); });

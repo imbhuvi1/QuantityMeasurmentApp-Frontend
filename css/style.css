@@ -345,22 +345,93 @@ body {
 }
 
 /* ===== DASHBOARD ===== */
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - 56px);
+}
+
+.sidebar {
+    width: 200px;
+    min-width: 200px;
+    background: var(--card-bg);
+    border-right: 1px solid var(--card-border);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+}
+
+.sidebar-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 8px 4px;
+}
+
+.sidebar-item {
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.sidebar-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-item.active {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+.main-content {
+    flex: 1;
+    padding: 32px 28px;
+    overflow-y: auto;
+}
+
 .dashboard-container {
     max-width: 900px;
     margin: 32px auto;
     padding: 0 20px;
 }
 
-.tabs {
+/* ===== TYPE PILLS ===== */
+.type-pills {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
     margin-bottom: 24px;
 }
 
-.tab {
-    padding: 9px 20px;
-    border-radius: 4px;
+.type-pill {
+    padding: 6px 16px;
+    border-radius: 20px;
     border: 2px solid var(--border);
     background: var(--tab-bg);
     cursor: pointer;
@@ -369,22 +440,72 @@ body {
     font-family: 'Ubuntu', 'Segoe UI', Arial, sans-serif;
     color: var(--text-muted);
     transition: all 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
 }
 
-.tab:hover {
+.type-pill:hover {
     border-color: var(--primary);
     color: var(--primary);
 }
 
-.tab.active {
+.type-pill.active {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
 }
 
-.tab-content {
+/* ===== PROFILE ===== */
+.profile-card {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-top: 8px;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-fields {
+    flex: 1;
+}
+
+.profile-fields textarea.input-field {
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid var(--card-border);
+        padding: 12px 0;
+    }
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .sidebar-section-label { display: none; }
+    .sidebar-divider { display: none; }
+    .main-content { padding: 20px 16px; }
+    .profile-card { flex-direction: column; align-items: center; }
+}
     display: none;
     background: var(--card-bg);
     border-radius: 6px;
