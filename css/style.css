@@ -18,12 +18,43 @@
     --gradient-blue: linear-gradient(135deg, #0070AD 0%, #003D5C 100%);
 }
 
+[data-theme="dark"] {
+    --primary-blue: #3B82F6;
+    --dark-navy: #1E3A8A;
+    --light-grey: #1F2937;
+    --white: #111827;
+    --text-dark: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --border-light: #374151;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+}
+
 body {
     font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--light-grey);
     color: var(--text-dark);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: var(--white);
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-blue);
+    transform: scale(1.05);
 }
 
 /* ===== LANDING PAGE ===== */
