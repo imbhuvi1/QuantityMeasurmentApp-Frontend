@@ -16,7 +16,7 @@
             <span>Quantity Measurement</span>
         </div>
         <div class="landing-nav-menu">
-            <a href="index.html">Home</a>
+            <a href="index.html">Calculations</a>
             <a href="about.html">About</a>
         </div>
         <div class="landing-nav-buttons">
@@ -26,70 +26,151 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-left">
-            <h1>Smart Quantity Measurement Platform</h1>
-            <p>Compare, convert, and calculate quantities across multiple units with precision and efficiency.</p>
-            <div class="hero-buttons">
-                <a href="register.html" class="btn btn-primary">Get Started</a>
-                <a href="login.html" class="btn btn-secondary">Login</a>
-            </div>
+    <!-- Main Calculation Interface -->
+    <div class="calculation-container">
+        <!-- Welcome Banner -->
+        <div class="calculation-banner">
+            <h1>Quantity Measurement Calculator</h1>
+            <p>Perform calculations instantly. <a href="register.html" style="color: var(--primary-blue); text-decoration: none;">Register</a> to save your calculation history.</p>
         </div>
-        <div class="hero-right">
-            <div class="dashboard-preview">
-                <svg width="100%" height="100%" viewBox="0 0 400 300" style="max-width: 100%;">
-                    <!-- Sidebar -->
-                    <rect x="0" y="0" width="80" height="300" fill="#F5F7FA"/>
-                    <rect x="10" y="20" width="60" height="30" rx="4" fill="#0070AD" opacity="0.2"/>
-                    <rect x="10" y="60" width="60" height="30" rx="4" fill="#E5E7EB"/>
-                    <rect x="10" y="100" width="60" height="30" rx="4" fill="#E5E7EB"/>
-                    
-                    <!-- Main Content -->
-                    <rect x="100" y="20" width="280" height="260" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-                    
-                    <!-- Input Fields -->
-                    <rect x="120" y="80" width="100" height="40" rx="6" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
-                    <rect x="240" y="80" width="100" height="40" rx="6" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
-                    
-                    <!-- Arrow -->
-                    <text x="225" y="105" font-size="20" fill="#0070AD">→</text>
-                    
-                    <!-- Result Box -->
-                    <rect x="120" y="150" width="220" height="60" rx="8" fill="url(#gradient)"/>
-                    <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#0070AD;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#003D5C;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <text x="230" y="185" font-size="24" fill="#FFFFFF" font-weight="bold" text-anchor="middle">100 cm</text>
-                </svg>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="features-container">
-            <h2 class="section-title">Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Unit Conversion</h3>
-                    <p>Convert between different units seamlessly with high precision and accuracy across all measurement types.</p>
+        <!-- Calculation Box -->
+        <div class="content-card">
+            <h3 id="operation-title">Compare Two Quantities</h3>
+            
+            <!-- Operation Selector -->
+            <div class="operation-selector">
+                <label>Select Operation:</label>
+                <div class="operation-pills">
+                    <button class="operation-pill active" onclick="switchOperation('compare')">Compare</button>
+                    <button class="operation-pill" onclick="switchOperation('convert')">Convert</button>
+                    <button class="operation-pill" onclick="switchOperation('add')">Add</button>
+                    <button class="operation-pill" onclick="switchOperation('subtract')">Subtract</button>
+                    <button class="operation-pill" onclick="switchOperation('divide')">Divide</button>
                 </div>
-                <div class="feature-card">
-                    <h3>Arithmetic Operations</h3>
-                    <p>Perform addition, subtraction, multiplication, and division operations on quantities with different units.</p>
+            </div>
+            
+            <!-- Measurement Type Selector -->
+            <div class="measurement-selector">
+                <label>Measurement Type:</label>
+                <div class="type-pills">
+                    <button class="type-pill active" onclick="selectMeasurementType('LENGTH')">Length</button>
+                    <button class="type-pill" onclick="selectMeasurementType('WEIGHT')">Weight</button>
+                    <button class="type-pill" onclick="selectMeasurementType('VOLUME')">Volume</button>
+                    <button class="type-pill" onclick="selectMeasurementType('TEMPERATURE')">Temperature</button>
                 </div>
-                <div class="feature-card">
-                    <h3>Multi-Domain Support</h3>
-                    <p>Support for Length, Weight, Volume, and Temperature measurements with comprehensive unit coverage.</p>
+            </div>
+
+            <!-- Compare Operation -->
+            <div id="operation-compare" class="operation-content active">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Quantity 1</label>
+                        <input type="number" id="compare-val1" placeholder="Enter value">
+                        <select id="compare-unit1"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantity 2</label>
+                        <input type="number" id="compare-val2" placeholder="Enter value">
+                        <select id="compare-unit2"></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="doCompare()">Compare</button>
+                <div id="result-compare" class="result-box hidden">
+                    <div class="label">Result</div>
+                    <div class="value" id="result-compare-value"></div>
+                </div>
+            </div>
+
+            <!-- Convert Operation -->
+            <div id="operation-convert" class="operation-content">
+                <div class="conversion-container">
+                    <div class="input-group">
+                        <label>Enter Value</label>
+                        <input type="number" id="convert-val" placeholder="Enter value">
+                        <select id="convert-from"></select>
+                    </div>
+                    <div class="arrow-icon">→</div>
+                    <div class="input-group">
+                        <label>Convert To</label>
+                        <select id="convert-to"></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="doConvert()">Convert</button>
+                <div id="result-convert" class="result-box hidden">
+                    <div class="label">Result</div>
+                    <div class="value" id="result-convert-value"></div>
+                    <div class="explanation" id="result-convert-exp"></div>
+                </div>
+            </div>
+
+            <!-- Add Operation -->
+            <div id="operation-add" class="operation-content">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Quantity 1</label>
+                        <input type="number" id="add-val1" placeholder="Enter value">
+                        <select id="add-unit1"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantity 2</label>
+                        <input type="number" id="add-val2" placeholder="Enter value">
+                        <select id="add-unit2"></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="doAdd()">Add</button>
+                <div id="result-add" class="result-box hidden">
+                    <div class="label">Result</div>
+                    <div class="value" id="result-add-value"></div>
+                </div>
+            </div>
+
+            <!-- Subtract Operation -->
+            <div id="operation-subtract" class="operation-content">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Quantity 1</label>
+                        <input type="number" id="subtract-val1" placeholder="Enter value">
+                        <select id="subtract-unit1"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantity 2</label>
+                        <input type="number" id="subtract-val2" placeholder="Enter value">
+                        <select id="subtract-unit2"></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="doSubtract()">Subtract</button>
+                <div id="result-subtract" class="result-box hidden">
+                    <div class="label">Result</div>
+                    <div class="value" id="result-subtract-value"></div>
+                </div>
+            </div>
+
+            <!-- Divide Operation -->
+            <div id="operation-divide" class="operation-content">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Quantity 1</label>
+                        <input type="number" id="divide-val1" placeholder="Enter value">
+                        <select id="divide-unit1"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantity 2</label>
+                        <input type="number" id="divide-val2" placeholder="Enter value">
+                        <select id="divide-unit2"></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="doDivide()">Divide</button>
+                <div id="result-divide" class="result-box hidden">
+                    <div class="label">Result</div>
+                    <div class="value" id="result-divide-value"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/calculator.js"></script>
 </body>
 </html>

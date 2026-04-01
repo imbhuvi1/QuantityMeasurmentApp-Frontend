@@ -69,6 +69,9 @@
 
     <script src="js/auth.js"></script>
     <script>
+        // Redirect if already logged in
+        redirectIfLoggedIn();
+        
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;

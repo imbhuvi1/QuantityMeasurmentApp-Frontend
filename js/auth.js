@@ -12,7 +12,7 @@ function getUser() {
 function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 function requireAuth() {
@@ -22,8 +22,11 @@ function requireAuth() {
 }
 
 function redirectIfLoggedIn() {
-    if (getToken()) {
-        window.location.href = 'dashboard.html';
+    const user = getUser();
+    if (getToken() && user) {
+        // Redirect based on role
+        const redirectUrl = user.role === 'ADMIN' ? 'admin.html' : 'dashboard.html';
+        window.location.href = redirectUrl;
     }
 }
 
