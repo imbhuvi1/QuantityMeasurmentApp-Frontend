@@ -9,54 +9,60 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="auth-layout">
-        <!-- Left Side -->
-        <div class="auth-left">
-            <div class="logo-icon" style="width: 48px; height: 48px; font-size: 24px; margin-bottom: 24px;">📐</div>
-            <h2>Precision in Every Measurement</h2>
-            <p>Your trusted platform for accurate quantity conversions and calculations</p>
+    <!-- Navbar -->
+    <nav class="landing-navbar">
+        <div class="landing-logo">
+            <div class="logo-icon">📐</div>
+            <span>Quantity Measurement</span>
         </div>
+        <div class="landing-nav-menu">
+            <a href="index.html">Calculations</a>
+            <a href="about.html">About</a>
+        </div>
+        <div class="landing-nav-buttons">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <a href="login.html" class="btn btn-secondary">Login</a>
+        </div>
+    </nav>
 
-        <!-- Right Side -->
-        <div class="auth-right">
-            <div class="auth-card">
-                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" style="float:right; margin-bottom:16px;">🌙</button>
-                <h2>Register</h2>
-                <p class="subtitle">Create your account to get started.</p>
+    <!-- Centered Register Container -->
+    <div class="auth-center-container">
+        <div class="auth-center-card">
+            <h2>Register</h2>
+            <p class="subtitle">Create your account to save calculation history.</p>
 
-                <div id="error-msg" class="error-msg hidden"></div>
-                <div id="success-msg" class="success-msg hidden"></div>
+            <div id="error-msg" class="error-msg hidden"></div>
+            <div id="success-msg" class="success-msg hidden"></div>
 
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="Enter your name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Register</button>
-                </form>
-
-                <div class="auth-divider">
-                    <hr>
-                    <span>OR</span>
-                    <hr>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
                 </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Register</button>
+            </form>
 
-                <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full google-btn">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-                    Continue with Google
-                </a>
-
-                <p class="auth-link">Already have an account? <a href="login.html">Login</a></p>
-                <p class="auth-link"><a href="index.html">← Back to Home</a></p>
+            <div class="auth-divider">
+                <hr>
+                <span>OR</span>
+                <hr>
             </div>
+
+            <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+                Continue with Google
+            </a>
+
+            <p class="auth-link">Already have an account? <a href="login.html">Login</a></p>
+            <p class="auth-link"><a href="index.html">← Back to Calculations</a></p>
         </div>
     </div>
 
@@ -98,7 +104,7 @@
                     successMsg.textContent = 'Registered successfully! Redirecting...';
                     successMsg.classList.remove('hidden');
                     
-                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                    setTimeout(() => window.location.href = 'index.html', 1500);
                 } else {
                     errorMsg.textContent = data.message || 'Registration failed. Email may already exist.';
                     errorMsg.classList.remove('hidden');

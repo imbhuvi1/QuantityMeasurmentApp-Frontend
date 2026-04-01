@@ -9,49 +9,55 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="auth-layout">
-        <!-- Left Side -->
-        <div class="auth-left">
-            <div class="logo-icon" style="width: 48px; height: 48px; font-size: 24px; margin-bottom: 24px;">📐</div>
-            <h2>Precision in Every Measurement</h2>
-            <p>Your trusted platform for accurate quantity conversions and calculations</p>
+    <!-- Navbar -->
+    <nav class="landing-navbar">
+        <div class="landing-logo">
+            <div class="logo-icon">📐</div>
+            <span>Quantity Measurement</span>
         </div>
+        <div class="landing-nav-menu">
+            <a href="index.html">Calculations</a>
+            <a href="about.html">About</a>
+        </div>
+        <div class="landing-nav-buttons">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <a href="register.html" class="btn btn-primary">Register</a>
+        </div>
+    </nav>
 
-        <!-- Right Side -->
-        <div class="auth-right">
-            <div class="auth-card">
-                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" style="float:right; margin-bottom:16px;">🌙</button>
-                <h2>Login</h2>
-                <p class="subtitle">Welcome back! Please login to your account.</p>
+    <!-- Centered Login Container -->
+    <div class="auth-center-container">
+        <div class="auth-center-card">
+            <h2>Login</h2>
+            <p class="subtitle">Welcome back! Please login to your account.</p>
 
-                <div id="error-msg" class="error-msg hidden"></div>
+            <div id="error-msg" class="error-msg hidden"></div>
 
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
-                </form>
-
-                <div class="auth-divider">
-                    <hr>
-                    <span>OR</span>
-                    <hr>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
                 </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
+            </form>
 
-                <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full google-btn">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-                    Continue with Google
-                </a>
-
-                <p class="auth-link">Don't have an account? <a href="register.html">Register</a></p>
-                <p class="auth-link"><a href="index.html">← Back to Home</a></p>
+            <div class="auth-divider">
+                <hr>
+                <span>OR</span>
+                <hr>
             </div>
+
+            <a href="http://localhost:8081/oauth2/authorization/google" class="btn btn-outline btn-full google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+                Continue with Google
+            </a>
+
+            <p class="auth-link">Don't have an account? <a href="register.html">Register</a></p>
+            <p class="auth-link"><a href="index.html">← Back to Calculations</a></p>
         </div>
     </div>
 
@@ -87,7 +93,7 @@
                         name: data.name
                     }));
                     
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'index.html';
                 } else {
                     errorMsg.textContent = 'Invalid email or password';
                     errorMsg.classList.remove('hidden');

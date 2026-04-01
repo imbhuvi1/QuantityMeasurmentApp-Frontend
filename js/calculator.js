@@ -1,5 +1,5 @@
-// Anonymous calculator - no authentication required
-// History is NOT saved for anonymous users
+// Universal calculator - works for both anonymous and authenticated users
+// History is saved only for authenticated users
 
 const UNITS = {
     LENGTH: ['FEET', 'INCHES', 'YARDS', 'CENTIMETERS'],
@@ -22,6 +22,39 @@ const OPERATION_TITLES = {
 // Initialize
 function init() {
     populateAllUnits();
+    checkUserStatus();
+}
+
+// Check if user is logged in and update UI
+function checkUserStatus() {
+    const user = getUser();
+    const token = getToken();
+    
+    if (user && token) {
+        // User is logged in
+        document.getElementById('userInfo').classList.remove('hidden');
+        document.getElementById('guestInfo').classList.add('hidden');
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('bannerMessage').innerHTML = `Welcome back, ${user.name}! Your calculation history is being saved.`;
+    } else {
+        // User is anonymous
+        document.getElementById('userInfo').classList.add('hidden');
+        document.getElementById('guestInfo').classList.remove('hidden');
+        document.getElementById('bannerMessage').innerHTML = 'Perform calculations instantly. <a href="register.html" style="color: var(--primary-blue); text-decoration: none;">Register</a> to save your calculation history.';
+    }
+}
+
+// Show/hide sections
+function showHistory() {
+    document.getElementById('history-section').classList.remove('hidden');
+    document.getElementById('profile-section').classList.add('hidden');
+    loadHistory();
+}
+
+function showProfile() {
+    document.getElementById('history-section').classList.add('hidden');
+    document.getElementById('profile-section').classList.remove('hidden');
+    loadProfile();
 }
 
 function switchOperation(operation) {
@@ -102,7 +135,7 @@ function hideAllResults() {
     });
 }
 
-// Operations - Anonymous (no history saving)
+// Operations - Universal (works for both anonymous and authenticated users)
 async function doCompare() {
     const val1 = parseFloat(document.getElementById('compare-val1').value);
     const val2 = parseFloat(document.getElementById('compare-val2').value);
@@ -118,12 +151,27 @@ async function doCompare() {
     const q2 = { value: val2, unit: unit2, measurementType: currentMeasurementType };
     
     try {
-        // Call API without authentication (anonymous)
-        const res = await fetch(`${API_BASE}/api/quantity/compare`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity1: q1, quantity2: q2 })
-        });
+        const token = getToken();
+        let res;
+        
+        if (token) {
+            // Authenticated user - use authenticated endpoint (saves history)
+            res = await fetch(`${API_BASE}/api/measurements/compare`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        } else {
+            // Anonymous user - use anonymous endpoint (no history)
+            res = await fetch(`${API_BASE}/api/quantity/compare`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        }
         
         const json = await res.json();
         
@@ -154,11 +202,25 @@ async function doConvert() {
     const q2 = { value: 0, unit: toUnit, measurementType: currentMeasurementType };
     
     try {
-        const res = await fetch(`${API_BASE}/api/quantity/convert`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity1: q1, quantity2: q2 })
-        });
+        const token = getToken();
+        let res;
+        
+        if (token) {
+            res = await fetch(`${API_BASE}/api/measurements/convert`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        } else {
+            res = await fetch(`${API_BASE}/api/quantity/convert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        }
         
         const json = await res.json();
         
@@ -193,11 +255,25 @@ async function doAdd() {
     const q2 = { value: val2, unit: unit2, measurementType: currentMeasurementType };
     
     try {
-        const res = await fetch(`${API_BASE}/api/quantity/add`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity1: q1, quantity2: q2 })
-        });
+        const token = getToken();
+        let res;
+        
+        if (token) {
+            res = await fetch(`${API_BASE}/api/measurements/add`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        } else {
+            res = await fetch(`${API_BASE}/api/quantity/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        }
         
         const json = await res.json();
         
@@ -229,11 +305,25 @@ async function doSubtract() {
     const q2 = { value: val2, unit: unit2, measurementType: currentMeasurementType };
     
     try {
-        const res = await fetch(`${API_BASE}/api/quantity/subtract`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity1: q1, quantity2: q2 })
-        });
+        const token = getToken();
+        let res;
+        
+        if (token) {
+            res = await fetch(`${API_BASE}/api/measurements/subtract`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        } else {
+            res = await fetch(`${API_BASE}/api/quantity/subtract`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        }
         
         const json = await res.json();
         
@@ -265,11 +355,25 @@ async function doDivide() {
     const q2 = { value: val2, unit: unit2, measurementType: currentMeasurementType };
     
     try {
-        const res = await fetch(`${API_BASE}/api/quantity/divide`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity1: q1, quantity2: q2 })
-        });
+        const token = getToken();
+        let res;
+        
+        if (token) {
+            res = await fetch(`${API_BASE}/api/measurements/divide`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        } else {
+            res = await fetch(`${API_BASE}/api/quantity/divide`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+            });
+        }
         
         const json = await res.json();
         
@@ -283,6 +387,129 @@ async function doDivide() {
         }
     } catch (err) {
         alert('Operation failed');
+    }
+}
+
+// History functions (for authenticated users)
+async function loadHistory() {
+    const container = document.getElementById('history-table-container');
+    container.innerHTML = '<p>Loading...</p>';
+    
+    try {
+        const res = await getHistory();
+        const json = await res.json();
+        
+        if (!json.success) {
+            container.innerHTML = `<p style="color:#DC2626">${json.message}</p>`;
+            return;
+        }
+        
+        const data = json.data;
+        if (!data.length) {
+            container.innerHTML = '<p>No history found.</p>';
+            return;
+        }
+        
+        let html = `<table>
+            <thead><tr>
+                <th>#</th><th>Operation</th><th>Input</th><th>Output</th><th>Result</th><th>Action</th>
+            </tr></thead><tbody>`;
+        
+        data.forEach((item, i) => {
+            html += `<tr>
+                <td>${i + 1}</td>
+                <td>${item.operation}</td>
+                <td>${item.thisValue} ${item.thisUnit}</td>
+                <td>${item.thatValue != null ? item.thatValue + ' ' + item.thatUnit : '-'}</td>
+                <td>${item.resultValue != null ? item.resultValue + ' ' + item.resultUnit : item.resultString || '-'}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="deleteSingle(${item.id})">Delete</button></td>
+            </tr>`;
+        });
+        
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    } catch (err) {
+        container.innerHTML = '<p style="color:#DC2626">Failed to load history</p>';
+    }
+}
+
+async function deleteSingle(id) {
+    try {
+        const res = await deleteById(id);
+        const json = await res.json();
+        if (json.success) loadHistory();
+        else alert('Error: ' + json.message);
+    } catch (err) {
+        alert('Delete failed');
+    }
+}
+
+async function deleteAllHistory() {
+    if (!confirm('Delete ALL history? This cannot be undone.')) return;
+    
+    try {
+        const res = await deleteAll();
+        const json = await res.json();
+        if (json.success) loadHistory();
+        else alert('Error: ' + json.message);
+    } catch (err) {
+        alert('Delete failed');
+    }
+}
+
+// Profile functions (for authenticated users)
+async function loadProfile() {
+    try {
+        const res = await getProfile();
+        const json = await res.json();
+        
+        if (!json.success) return;
+        
+        const d = json.data;
+        document.getElementById('profile-name').value = d.name || '';
+        document.getElementById('profile-email').value = d.email || '';
+        document.getElementById('profile-phone').value = d.phone || '';
+        document.getElementById('profile-bio').value = d.bio || '';
+        document.getElementById('profile-provider').value = d.provider || '';
+        document.getElementById('profile-avatar').textContent = d.name ? d.name.charAt(0).toUpperCase() : '?';
+    } catch (err) {
+        console.error('Failed to load profile');
+    }
+}
+
+async function saveProfile() {
+    const successEl = document.getElementById('profile-success');
+    const errorEl = document.getElementById('profile-error');
+    successEl.classList.add('hidden');
+    errorEl.classList.add('hidden');
+    
+    try {
+        const res = await updateProfile({
+            name: document.getElementById('profile-name').value,
+            phone: document.getElementById('profile-phone').value,
+            bio: document.getElementById('profile-bio').value
+        });
+        
+        const json = await res.json();
+        
+        if (!json.success) {
+            errorEl.textContent = json.message;
+            errorEl.classList.remove('hidden');
+            return;
+        }
+        
+        successEl.textContent = 'Profile updated successfully!';
+        successEl.classList.remove('hidden');
+        
+        const newName = document.getElementById('profile-name').value;
+        document.getElementById('profile-avatar').textContent = newName.charAt(0).toUpperCase();
+        document.getElementById('userName').textContent = newName;
+        
+        const u = getUser();
+        if (u) localStorage.setItem('user', JSON.stringify({ ...u, name: newName }));
+    } catch (err) {
+        errorEl.textContent = 'Failed to update profile';
+        errorEl.classList.remove('hidden');
     }
 }
 
