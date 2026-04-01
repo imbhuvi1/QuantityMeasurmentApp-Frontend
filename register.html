@@ -40,6 +40,13 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" placeholder="Enter your password" required>
                     </div>
+                    <div class="form-group">
+                        <label for="role">Account Type</label>
+                        <select id="role" required>
+                            <option value="USER">Regular User</option>
+                            <option value="ADMIN">Administrator</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Register</button>
                 </form>
 
@@ -67,6 +74,7 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
             const btn = document.getElementById('registerBtn');
             const errorMsg = document.getElementById('error-msg');
             const successMsg = document.getElementById('success-msg');
@@ -80,17 +88,25 @@
                 const response = await fetch(`${API_BASE}/api/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
+                    body: JSON.stringify({ name, email, password, role })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
                     localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify({ email: data.email, name: data.name }));
-                    successMsg.textContent = 'Registered successfully! Redirecting...';
+                    localStorage.setItem('user', JSON.stringify({ 
+                        email: data.email, 
+                        name: data.name, 
+                        role: data.role 
+                    }));
+                    
+                    successMsg.textContent = `Registered successfully as ${data.role}! Redirecting...`;
                     successMsg.classList.remove('hidden');
-                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                    
+                    // Redirect based on role
+                    const redirectUrl = data.role === 'ADMIN' ? 'admin.html' : 'dashboard.html';
+                    setTimeout(() => window.location.href = redirectUrl, 1500);
                 } else {
                     errorMsg.textContent = data.message || 'Registration failed. Email may already exist.';
                     errorMsg.classList.remove('hidden');
