@@ -1197,3 +1197,79 @@ tr:hover td {
         flex-wrap: wrap;
     }
 }
+
+/* ===== ADMIN DASHBOARD ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: var(--gradient-card);
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #A0AEC0;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.role-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.role-badge.user {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.role-badge.admin {
+    background: #FEF3C7;
+    color: #D97706;
+}
+
+[data-theme="dark"] .role-badge.user {
+    background: rgba(3, 105, 161, 0.2);
+    color: #7DD3FC;
+}
+
+[data-theme="dark"] .role-badge.admin {
+    background: rgba(217, 119, 6, 0.2);
+    color: #FCD34D;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
+    }
+}

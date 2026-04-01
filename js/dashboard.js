@@ -8,6 +8,9 @@ const user = getUser();
 if (user) {
     document.getElementById('userName').textContent = user.name;
     document.getElementById('welcome-msg').textContent = `Welcome, ${user.name}!`;
+    
+    // Check if user is admin and show admin link
+    checkAdminAccess();
 }
 
 function startCalculations() {
@@ -430,3 +433,30 @@ async function saveProfile() {
 
 // Initialize on load
 init();
+
+// Check if user has admin access
+async function checkAdminAccess() {
+    try {
+        const res = await fetch(`${API_BASE}/api/admin/stats`, {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (res.status === 200) {
+            // User is admin, show admin link
+            const sidebar = document.querySelector('.sidebar');
+            const adminLink = document.createElement('button');
+            adminLink.className = 'sidebar-item';
+            adminLink.textContent = 'Admin Panel';
+            adminLink.onclick = () => window.location.href = 'admin.html';
+            
+            // Add after divider
+            const divider = document.querySelector('.sidebar-divider');
+            divider.parentNode.insertBefore(adminLink, divider.nextSibling);
+        }
+    } catch (err) {
+        // User is not admin, do nothing
+    }
+}
