@@ -8,9 +8,6 @@ const user = getUser();
 if (user) {
     document.getElementById('userName').textContent = user.name;
     document.getElementById('welcome-msg').textContent = `Welcome, ${user.name}!`;
-    
-    // Add role-based navigation
-    addRoleBasedNavigation(user.role);
 }
 
 function startCalculations() {
@@ -433,43 +430,3 @@ async function saveProfile() {
 
 // Initialize on load
 init();
-
-// Add role-based navigation
-function addRoleBasedNavigation(userRole) {
-    if (userRole === 'ADMIN') {
-        // Add admin panel button
-        const sidebar = document.querySelector('.sidebar');
-        const adminButton = document.createElement('button');
-        adminButton.className = 'sidebar-item';
-        adminButton.textContent = '👑 Admin Panel';
-        adminButton.onclick = () => window.location.href = 'admin.html';
-        
-        // Add after divider
-        const divider = document.querySelector('.sidebar-divider');
-        divider.parentNode.insertBefore(adminButton, divider.nextSibling);
-        
-        // Add role badge to navbar
-        const navRight = document.querySelector('.dashboard-nav-right');
-        const roleBadge = document.createElement('span');
-        roleBadge.className = 'role-badge admin';
-        roleBadge.textContent = 'ADMIN';
-        roleBadge.style.marginRight = '16px';
-        navRight.insertBefore(roleBadge, navRight.firstChild);
-    } else {
-        // Add user badge
-        const navRight = document.querySelector('.dashboard-nav-right');
-        const roleBadge = document.createElement('span');
-        roleBadge.className = 'role-badge user';
-        roleBadge.textContent = 'USER';
-        roleBadge.style.marginRight = '16px';
-        navRight.insertBefore(roleBadge, navRight.firstChild);
-    }
-}
-
-// Check if user has admin access (legacy function - keeping for compatibility)
-async function checkAdminAccess() {
-    const user = getUser();
-    if (user && user.role === 'ADMIN') {
-        addRoleBasedNavigation('ADMIN');
-    }
-}

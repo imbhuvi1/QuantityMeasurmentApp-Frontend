@@ -84,16 +84,10 @@
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify({ 
                         email: data.email, 
-                        name: data.name, 
-                        role: data.role 
+                        name: data.name
                     }));
                     
-                    // Show role-based success message
-                    const roleMsg = data.role === 'ADMIN' ? 'Welcome Admin!' : 'Welcome User!';
-                    
-                    // Redirect based on role
-                    const redirectUrl = data.role === 'ADMIN' ? 'admin.html' : 'dashboard.html';
-                    window.location.href = redirectUrl;
+                    window.location.href = 'dashboard.html';
                 } else {
                     errorMsg.textContent = 'Invalid email or password';
                     errorMsg.classList.remove('hidden');

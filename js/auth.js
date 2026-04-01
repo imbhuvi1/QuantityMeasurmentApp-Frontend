@@ -22,11 +22,8 @@ function requireAuth() {
 }
 
 function redirectIfLoggedIn() {
-    const user = getUser();
-    if (getToken() && user) {
-        // Redirect based on role
-        const redirectUrl = user.role === 'ADMIN' ? 'admin.html' : 'dashboard.html';
-        window.location.href = redirectUrl;
+    if (getToken()) {
+        window.location.href = 'dashboard.html';
     }
 }
 
