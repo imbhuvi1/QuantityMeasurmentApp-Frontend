@@ -177,11 +177,12 @@
         </div>
 
         <!-- History Section (for logged in users) -->
-        <div id="history-section" class="content-card hidden">
+        <div id="history-section" class="content-card hidden" style="margin-top: 40px;">
             <h3>Calculation History</h3>
             <div class="history-actions">
                 <button class="btn btn-primary btn-sm" onclick="loadHistory()">Refresh</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteAllHistory()">Delete All</button>
+                <button class="btn btn-outline btn-sm" onclick="hideHistoryProfile()">Back to Calculator</button>
             </div>
             <div id="history-table-container">
                 <p>Loading history...</p>
@@ -189,8 +190,11 @@
         </div>
 
         <!-- Profile Section (for logged in users) -->
-        <div id="profile-section" class="content-card hidden">
+        <div id="profile-section" class="content-card hidden" style="margin-top: 40px;">
             <h3>My Profile</h3>
+            <div style="margin-bottom: 20px;">
+                <button class="btn btn-outline btn-sm" onclick="hideHistoryProfile()">Back to Calculator</button>
+            </div>
             <div id="profile-success" class="success-msg hidden"></div>
             <div id="profile-error" class="error-msg hidden"></div>
             <div class="profile-card">

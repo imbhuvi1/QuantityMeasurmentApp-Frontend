@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8081';
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8081' : 'http://localhost:8081';
 
 function getToken() {
     return localStorage.getItem('token');
@@ -23,7 +23,7 @@ function requireAuth() {
 
 function redirectIfLoggedIn() {
     if (getToken()) {
-        window.location.href = 'dashboard.html';
+        window.location.href = 'index.html';
     }
 }
 

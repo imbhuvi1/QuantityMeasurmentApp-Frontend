@@ -44,17 +44,47 @@ function checkUserStatus() {
     }
 }
 
-// Show/hide sections
+// Show/hide sections with smooth scrolling
 function showHistory() {
     document.getElementById('history-section').classList.remove('hidden');
     document.getElementById('profile-section').classList.add('hidden');
+    
+    // Smooth scroll to history section
+    setTimeout(() => {
+        document.getElementById('history-section').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }, 100);
+    
     loadHistory();
 }
 
 function showProfile() {
     document.getElementById('history-section').classList.add('hidden');
     document.getElementById('profile-section').classList.remove('hidden');
+    
+    // Smooth scroll to profile section
+    setTimeout(() => {
+        document.getElementById('profile-section').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }, 100);
+    
     loadProfile();
+}
+
+// Hide history/profile and scroll back to calculator
+function hideHistoryProfile() {
+    document.getElementById('history-section').classList.add('hidden');
+    document.getElementById('profile-section').classList.add('hidden');
+    
+    // Scroll back to top of calculator
+    document.querySelector('.calculation-banner').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
 }
 
 function switchOperation(operation) {
@@ -156,20 +186,20 @@ async function doCompare() {
         
         if (token) {
             // Authenticated user - use authenticated endpoint (saves history)
-            res = await fetch(`${API_BASE}/api/measurements/compare`, {
+            res = await fetch(`${API_BASE}/api/quantity/compare`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         } else {
-            // Anonymous user - use anonymous endpoint (no history)
+            // Anonymous user - use same endpoint (no history saved)
             res = await fetch(`${API_BASE}/api/quantity/compare`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         }
         
@@ -206,19 +236,19 @@ async function doConvert() {
         let res;
         
         if (token) {
-            res = await fetch(`${API_BASE}/api/measurements/convert`, {
+            res = await fetch(`${API_BASE}/api/quantity/convert`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         } else {
             res = await fetch(`${API_BASE}/api/quantity/convert`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         }
         
@@ -259,19 +289,19 @@ async function doAdd() {
         let res;
         
         if (token) {
-            res = await fetch(`${API_BASE}/api/measurements/add`, {
+            res = await fetch(`${API_BASE}/api/quantity/add`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         } else {
             res = await fetch(`${API_BASE}/api/quantity/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         }
         
@@ -309,19 +339,19 @@ async function doSubtract() {
         let res;
         
         if (token) {
-            res = await fetch(`${API_BASE}/api/measurements/subtract`, {
+            res = await fetch(`${API_BASE}/api/quantity/subtract`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         } else {
             res = await fetch(`${API_BASE}/api/quantity/subtract`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         }
         
@@ -359,19 +389,19 @@ async function doDivide() {
         let res;
         
         if (token) {
-            res = await fetch(`${API_BASE}/api/measurements/divide`, {
+            res = await fetch(`${API_BASE}/api/quantity/divide`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         } else {
             res = await fetch(`${API_BASE}/api/quantity/divide`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity1: q1, quantity2: q2 })
+                body: JSON.stringify({ q1: q1, q2: q2 })
             });
         }
         
