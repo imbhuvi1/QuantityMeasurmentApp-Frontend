@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Quantity Measurement App</title>
+    <title>Login - Quantity Measurement App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -21,24 +21,19 @@
         </div>
         <div class="landing-nav-buttons">
             <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            <a href="login.html" class="btn btn-secondary">Login</a>
+            <a href="register.html" class="btn btn-primary">Register</a>
         </div>
     </nav>
 
-    <!-- Centered Register Container -->
+    <!-- Centered Login Container -->
     <div class="auth-center-container">
         <div class="auth-center-card">
-            <h2>Register</h2>
-            <p class="subtitle">Create your account to save calculation history.</p>
+            <h2>Login</h2>
+            <p class="subtitle">Welcome back! Please login to your account.</p>
 
             <div id="error-msg" class="error-msg hidden"></div>
-            <div id="success-msg" class="success-msg hidden"></div>
 
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                </div>
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" placeholder="Enter your email" required>
@@ -47,7 +42,7 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Register</button>
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
             </form>
 
             <div class="auth-divider">
@@ -61,35 +56,32 @@
                 Continue with Google
             </a>
 
-            <p class="auth-link">Already have an account? <a href="login.html">Login</a></p>
+            <p class="auth-link">Don't have an account? <a href="register.html">Register</a></p>
             <p class="auth-link"><a href="index.html">← Back to Calculations</a></p>
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
+    <script src="../js/auth.js"></script>
     <script>
         // Redirect if already logged in
         redirectIfLoggedIn();
         
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const btn = document.getElementById('registerBtn');
+            const btn = document.getElementById('loginBtn');
             const errorMsg = document.getElementById('error-msg');
-            const successMsg = document.getElementById('success-msg');
 
-            btn.textContent = 'Registering...';
+            btn.textContent = 'Logging in...';
             btn.disabled = true;
             errorMsg.classList.add('hidden');
-            successMsg.classList.add('hidden');
 
             try {
-                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
+                    body: JSON.stringify({ email, password })
                 });
 
                 const data = await response.json();
@@ -101,12 +93,9 @@
                         name: data.name
                     }));
                     
-                    successMsg.textContent = 'Registered successfully! Redirecting...';
-                    successMsg.classList.remove('hidden');
-                    
-                    setTimeout(() => window.location.href = 'index.html', 1500);
+                    window.location.href = 'index.html';
                 } else {
-                    errorMsg.textContent = data.message || 'Registration failed. Email may already exist.';
+                    errorMsg.textContent = 'Invalid email or password';
                     errorMsg.classList.remove('hidden');
                 }
             } catch (err) {
@@ -114,7 +103,7 @@
                 errorMsg.classList.remove('hidden');
             }
 
-            btn.textContent = 'Register';
+            btn.textContent = 'Login';
             btn.disabled = false;
         });
     </script>
