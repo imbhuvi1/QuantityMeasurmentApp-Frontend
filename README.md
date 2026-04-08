@@ -1,4 +1,41 @@
-# Frontend
+# Quantity Measurement Application - Frontend
+
+A modern Angular-based web application for performing unit conversions and calculations across different measurement types including Length, Weight, Volume, and Temperature. This frontend provides an intuitive user interface for the Quantity Measurement System with user authentication and personalized calculation history.
+
+## Overview
+
+This application serves as the client-side interface for the Quantity Measurement API, enabling users to perform various measurement operations with a clean and responsive design. Built with Angular 21.2.6, it offers real-time calculations, user authentication via Google OAuth2, and secure session management.
+
+## Key Features
+
+- **Multi-Unit Support**: Convert and calculate across Length, Weight, Volume, and Temperature units
+- **User Authentication**: Secure login with Google OAuth2 and traditional email/password
+- **Personalized History**: Each user has their own private calculation history
+- **Real-time Calculations**: Instant results for compare, convert, add, subtract, and divide operations
+- **Responsive Design**: Works seamlessly across desktop, tablet, and mobile devices
+- **Secure Communication**: JWT-based authentication with the backend API
+
+## Supported Measurement Types
+
+- **Length**: Feet, Inches, Yards, Centimeters
+- **Weight**: Milligram, Gram, Kilogram, Pound, Tonne
+- **Volume**: Litre, Millilitre, Gallon
+- **Temperature**: Celsius, Fahrenheit, Kelvin
+
+## Technology Stack
+
+- Angular 21.2.6
+- TypeScript
+- RxJS for reactive programming
+- Angular Router for navigation
+- HttpClient for API communication
+- Angular Forms for user input handling
+
+## Project Structure
+
+The application follows Angular best practices with a modular architecture, separating concerns into components, services, guards, and interceptors for maintainability and scalability.
+
+---
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.6.
 
