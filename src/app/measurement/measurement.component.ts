@@ -46,7 +46,7 @@ import { MeasurementService } from '../services/measurement.service';
             </div>
 
             <!-- Quantity 2 -->
-            <div class="quantity-box glass-panel-inner">
+            <div class="quantity-box glass-panel-inner" *ngIf="calcForm.get('operation')?.value !== 'CONVERT'">
               <h3>Quantity B</h3>
               <div class="input-group">
                 <input type="number" formControlName="q2Value" step="any" placeholder="0">
@@ -59,7 +59,7 @@ import { MeasurementService } from '../services/measurement.service';
             </div>
           </div>
 
-          <div class="input-group target-unit-box" *ngIf="calcForm.get('operation')?.value === 'ADD' || calcForm.get('operation')?.value === 'SUBTRACT'">
+          <div class="input-group target-unit-box" *ngIf="calcForm.get('operation')?.value === 'ADD' || calcForm.get('operation')?.value === 'SUBTRACT' || calcForm.get('operation')?.value === 'CONVERT'">
             <label>Target Unit (Result Unit)</label>
             <select formControlName="targetUnit">
               <option *ngFor="let u of availableUnits" [value]="u">{{ u }}</option>
@@ -167,7 +167,6 @@ import { MeasurementService } from '../services/measurement.service';
     
     .error-msg { margin-top: 15px; color: #ff6b6b; text-align: center; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   `]
 })
 export class MeasurementComponent implements OnInit {
@@ -227,29 +226,29 @@ export class MeasurementComponent implements OnInit {
 
     const f = this.calcForm.value;
     const mType = f.measurementType || 'LENGTH';
-    
-    const payload = {
-      q1: { value: f.q1Value, unit: f.q1Unit, measurementType: mType },
-      q2: { value: f.q2Value, unit: f.q2Unit, measurementType: mType },
-      targetUnit: (f.operation === 'ADD' || f.operation === 'SUBTRACT') 
-          ? { value: 0, unit: f.targetUnit, measurementType: mType }
-          : null
+
+    const q1 = { value: f.q1Value, unit: f.q1Unit, unitType: mType };
+    const q2 = { value: f.q2Value, unit: f.q2Unit, unitType: mType };
+    const targetUnit = f.targetUnit || f.q1Unit;
+
+    const twoQtyPayload = {
+      firstQuantity: q1,
+      secondQuantity: q2,
+      targetUnit: (f.operation === 'ADD' || f.operation === 'SUBTRACT') ? targetUnit : null
     };
 
     const handleSuccess = (res: any) => {
       console.log('API Response:', res);
-      const data = res.data !== undefined ? res.data : res;
 
-      if (typeof data === 'boolean') {
-        this.result = data ? 'Equal / True' : 'Not Equal / False';
-      } else if (typeof data === 'number') {
-        this.result = Number.isInteger(data) ? data.toString() : data.toFixed(2);
-      } else if (data && data.value !== undefined && data.unit) {
-        this.result = `${Number.isInteger(data.value) ? data.value : data.value.toFixed(2)} ${data.unit}`;
+      if (res && typeof res.result === 'boolean') {
+        this.result = res.result ? 'Equal ✓' : 'Not Equal ✗';
+      } else if (res && res.value !== undefined) {
+        const val = Number.isInteger(res.value) ? res.value : res.value.toFixed(4);
+        this.result = res.unit && res.unit !== 'RATIO' ? `${val} ${res.unit}` : `${val}`;
       } else {
-        this.result = JSON.stringify(data);
+        this.result = JSON.stringify(res);
       }
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     };
 
     const handleError = (err: any) => {
@@ -260,19 +259,19 @@ export class MeasurementComponent implements OnInit {
 
     switch (f.operation) {
       case 'COMPARE':
-        this.ms.compare(payload).subscribe({ next: handleSuccess, error: handleError });
+        this.ms.compare(twoQtyPayload).subscribe({ next: handleSuccess, error: handleError });
         break;
       case 'CONVERT':
-        this.ms.convert(payload).subscribe({ next: handleSuccess, error: handleError });
+        this.ms.convert(q1, targetUnit!).subscribe({ next: handleSuccess, error: handleError });
         break;
       case 'ADD':
-        this.ms.add(payload).subscribe({ next: handleSuccess, error: handleError });
+        this.ms.add(twoQtyPayload).subscribe({ next: handleSuccess, error: handleError });
         break;
       case 'SUBTRACT':
-        this.ms.subtract(payload).subscribe({ next: handleSuccess, error: handleError });
+        this.ms.subtract(twoQtyPayload).subscribe({ next: handleSuccess, error: handleError });
         break;
       case 'DIVIDE':
-        this.ms.divide(payload).subscribe({ next: handleSuccess, error: handleError });
+        this.ms.divide(twoQtyPayload).subscribe({ next: handleSuccess, error: handleError });
         break;
     }
   }

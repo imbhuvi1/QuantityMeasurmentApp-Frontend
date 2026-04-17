@@ -36,6 +36,12 @@ import { AuthService } from '../../services/auth.service';
           <button type="submit" [disabled]="registerForm.invalid">Register</button>
         </form>
 
+        <div class="divider"><span>or</span></div>
+        <button class="google-btn" (click)="registerWithGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+          Continue with Google
+        </button>
+
         <p class="footer-link">Already have an account? <a routerLink="/login">Login here</a></p>
       </div>
     </div>
@@ -84,8 +90,37 @@ import { AuthService } from '../../services/auth.service';
     button:hover:not(:disabled) { background: var(--primary-accent-hover); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
     .error-msg { color: #ff6b6b; margin-bottom: 15px; font-size: 0.9rem; }
-    .footer-link { margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); }
-    .footer-link a { color: var(--primary-accent); text-decoration: none; font-weight: 600; }
+    .google-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      background: white;
+      color: #444;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 5px;
+    }
+    .google-btn:hover { background: #f5f5f5; }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 15px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
   `]
 })
 export class RegisterComponent {
@@ -100,6 +135,10 @@ export class RegisterComponent {
   });
 
   errorMessage = '';
+
+  registerWithGoogle() {
+    window.location.href = 'http://localhost:8081/oauth2/authorization/google';
+  }
 
   onSubmit() {
     if (this.registerForm.valid) {

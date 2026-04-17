@@ -8,24 +8,24 @@ export class MeasurementService {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:8080/api/quantity';
 
-  compare(data: any) {
-    return this.http.post(`${this.baseUrl}/compare`, data);
+  compare(payload: any) {
+    return this.http.post(`${this.baseUrl}/compare`, payload);
   }
 
-  convert(data: any) {
-    return this.http.post(`${this.baseUrl}/convert`, data);
+  convert(q1: any, targetUnit: string) {
+    return this.http.post(`${this.baseUrl}/convert`, { quantity: q1, targetUnit });
   }
 
-  add(data: any) {
-    return this.http.post(`${this.baseUrl}/add`, data);
+  add(payload: any) {
+    return this.http.post(`${this.baseUrl}/add`, payload);
   }
 
-  subtract(data: any) {
-    return this.http.post(`${this.baseUrl}/subtract`, data);
+  subtract(payload: any) {
+    return this.http.post(`${this.baseUrl}/subtract`, payload);
   }
 
-  divide(data: any) {
-    return this.http.post(`${this.baseUrl}/divide`, data);
+  divide(payload: any) {
+    return this.http.post(`${this.baseUrl}/divide`, payload);
   }
 
   // Uses Interceptor to prove we are logged in
@@ -34,10 +34,10 @@ export class MeasurementService {
   }
 
   deleteById(id: number) {
-    return this.http.delete(`${this.baseUrl}/deleteById?id=${id}`);
+    return this.http.delete(`${this.baseUrl}/deleteById?id=${id}`, { responseType: 'text' });
   }
 
   deleteAll() {
-    return this.http.delete(`${this.baseUrl}/deleteAll`);
+    return this.http.delete(`${this.baseUrl}/deleteAll`, { responseType: 'text' });
   }
 }

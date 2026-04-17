@@ -125,17 +125,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.profileService.getProfile().subscribe({
       next: (res: any) => {
-        if(res && res.data) {
-          this.profileData = res.data;
-          this.profileForm.patchValue({
-            name: this.profileData.name || '',
-            email: this.profileData.email || '',
-            phone: this.profileData.phone || '',
-            bio: this.profileData.bio || ''
-          });
-        }
+        this.profileData = res;
+        this.profileForm.patchValue({
+          name: res.name || '',
+          email: res.email || '',
+          phone: res.phone || '',
+          bio: res.bio || ''
+        });
       },
-      error: (err) => console.error("Could not fetch profile", err)
+      error: (err) => console.error('Could not fetch profile', err)
     });
   }
 

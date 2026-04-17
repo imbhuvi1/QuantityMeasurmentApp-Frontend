@@ -30,6 +30,11 @@ export class AuthService {
     );
   }
 
+  saveToken(token: string) {
+    localStorage.setItem('token', token);
+    this.loggedInSubject.next(true);
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.loggedInSubject.next(false);

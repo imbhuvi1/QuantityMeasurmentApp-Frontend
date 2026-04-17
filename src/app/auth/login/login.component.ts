@@ -31,6 +31,12 @@ import { AuthService } from '../../services/auth.service';
           <button type="submit" [disabled]="loginForm.invalid">Login</button>
         </form>
 
+        <div class="divider"><span>or</span></div>
+        <button class="google-btn" (click)="loginWithGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+          Continue with Google
+        </button>
+
         <p class="footer-link">Don't have an account? <a routerLink="/register">Register here</a></p>
       </div>
     </div>
@@ -79,8 +85,37 @@ import { AuthService } from '../../services/auth.service';
     button:hover:not(:disabled) { background: var(--primary-accent-hover); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
     .error-msg { color: #ff6b6b; margin-bottom: 15px; font-size: 0.9rem; }
-    .footer-link { margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); }
-    .footer-link a { color: var(--primary-accent); text-decoration: none; font-weight: 600; }
+    .google-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      background: white;
+      color: #444;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 5px;
+    }
+    .google-btn:hover { background: #f5f5f5; }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 15px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
   `]
 })
 export class LoginComponent {
@@ -94,6 +129,10 @@ export class LoginComponent {
   });
 
   errorMessage = '';
+
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:8081/oauth2/authorization/google';
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {

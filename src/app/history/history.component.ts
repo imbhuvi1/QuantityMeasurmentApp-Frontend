@@ -24,11 +24,11 @@ import { MeasurementService } from '../services/measurement.service';
               <!-- Using exact properties returned by QuantityMeasurementEntity -->
               <div class="op-badge">{{ item.operation }}</div>
               <div class="details">
-                <span class="qty">{{ item.thisValue }} {{ item.thisUnit }}</span>
-                <span class="op" *ngIf="item.thatValue != null"> ↔ </span>
-                <span class="qty" *ngIf="item.thatValue != null">{{ item.thatValue }} {{ item.thatUnit }}</span>
+                <span class="qty">{{ item.firstQuantity }}</span>
+                <span class="op" *ngIf="item.secondQuantity"> ↔ </span>
+                <span class="qty" *ngIf="item.secondQuantity">{{ item.secondQuantity }}</span>
                 <span class="result-label">RESULT:</span>
-                <span class="result-val">{{ item.resultString ? item.resultString : (item.resultValue + ' ' + (item.resultUnit ? item.resultUnit : '')) }}</span>
+                <span class="result-val">{{ item.result }}</span>
               </div>
             </div>
             <button class="delete-icon" (click)="deleteItem(item.id)">🗑</button>
@@ -107,21 +107,20 @@ export class HistoryComponent implements OnInit {
   fetchHistory() {
     this.ms.getHistory().subscribe({
       next: (res: any) => {
-        if(res && res.data) {
-          this.history = res.data.reverse(); // Newest first
-          this.cdr.detectChanges();
-        }
+        const arr = Array.isArray(res) ? res : (res.data ?? []);
+        this.history = [...arr].reverse();
+        this.cdr.detectChanges();
       },
-      error: (err) => console.error("Could not fetch history, are you logged in?", err)
+      error: (err) => console.error('Could not fetch history, are you logged in?', err)
     });
   }
 
   deleteItem(id: number) {
-    if(!id) return;
+    if (!id) return;
     this.ms.deleteById(id).subscribe(() => this.fetchHistory());
   }
 
   clearAll() {
-    this.ms.deleteAll().subscribe(() => this.history = []);
+    this.ms.deleteAll().subscribe(() => this.fetchHistory());
   }
 }
