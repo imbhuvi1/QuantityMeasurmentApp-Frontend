@@ -1,0 +1,35 @@
+<!-- This is our main application shell! -->
+<!-- Everything wrapped here is styled nicely with our glass theme. -->
+<main class="app-container">
+
+  <!-- A Premium Header Navigation Bar -->
+  <header class="glass-panel main-header">
+    <div class="logo">
+      <h1>Measurement<span>Hub</span></h1>
+    </div>
+    
+    <nav class="nav-links">
+      <a routerLink="/">Calculator</a>
+      
+      <!-- Only show if logged in -->
+      <ng-container *ngIf="authService.isLoggedIn$ | async; else anonymousNav">
+        <a routerLink="/history">History</a>
+        <a routerLink="/profile">Profile</a>
+        <a (click)="logout()" class="logout-btn" style="cursor: pointer;">Logout</a>
+      </ng-container>
+
+      <!-- Show if anonymous -->
+      <ng-template #anonymousNav>
+        <a routerLink="/login" class="login-btn">Login</a>
+        <a routerLink="/register" class="login-btn">Register</a>
+      </ng-template>
+    </nav>
+  </header>
+
+  <!-- This router-outlet is a placeholder. 
+       Angular will magically swap the code here depending on if you are on /login, /history, etc. -->
+  <div class="content-body">
+    <router-outlet></router-outlet>
+  </div>
+
+</main>

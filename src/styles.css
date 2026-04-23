@@ -1,0 +1,74 @@
+/* Variables for our Glassmorphism & Dark Mode Theme */
+:root {
+  /* Colors */
+  --bg-color-main: #0B0E14;     /* Deep dark blue/black */
+  --primary-accent: #6C5CE7;    /* Vibrant Purple */
+  --primary-accent-hover: #5A4AD4;
+  --text-light: #F8F9FA;
+  --text-muted: #A0A5B1;
+
+  /* Glass Effects */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-blur: blur(12px);
+
+  /* Fonts */
+  --font-family: 'Inter', sans-serif;
+}
+
+/* Base Body Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-color: var(--bg-color-main);
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(108, 92, 231, 0.12) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(0, 212, 255, 0.08) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-light);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reusable Glassmorphism Class */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+}
+
+/* Global inputs and buttons to match the aesthetic */
+button {
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
