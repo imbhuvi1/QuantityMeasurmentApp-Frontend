@@ -7,7 +7,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private baseUrl = 'https://quantitymeasurmentapp-w8tb.onrender.com/api/auth';
   
   // This helps our components know instantly if the user is logged in
   private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());

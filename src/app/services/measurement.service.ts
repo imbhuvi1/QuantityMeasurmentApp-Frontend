@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MeasurementService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:8080/api/quantity';
+  private baseUrl = 'https://quantitymeasurmentapp-w8tb.onrender.com/api/quantity';
 
   compare(payload: any) {
     return this.http.post(`${this.baseUrl}/compare`, payload);

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProfileService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:8080/api/user/profile';
+  private baseUrl = 'https://quantitymeasurmentapp-w8tb.onrender.com/api/user/profile';
 
   getProfile() {
     return this.http.get<any>(this.baseUrl);
